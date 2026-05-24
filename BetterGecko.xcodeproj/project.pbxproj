@@ -17,6 +17,8 @@
 		48F526F48208E34F1CB5A83E /* BetterGeckoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC0C50EF20491EF5022C26A /* BetterGeckoApp.swift */; };
 		4C41CB9F928A9E4D055ADFC4 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CD464A0611FD518136D5A9 /* SplashView.swift */; };
 		5F659E4FC660E0BBA17F7BFD /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9B4EF72E88994A99950C8D /* DashboardView.swift */; };
+		8FB83F1ED68349798988F56A /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63F0159152A4A10B4A325B3 /* InfoView.swift */; };
+		997A479D94F8253E59FAF965 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1826A9F16C91C13ED1565406 /* ProfileView.swift */; };
 		A1699F606934E8E0AD201CDC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B003BA5DE6358CB7205782 /* SettingsView.swift */; };
 		A346216FD1F5E85F1CD754EC /* DeviceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E7EA3CEF9CC581D4E29ABC /* DeviceAPI.swift */; };
 		B2A08EFFD8DEF179DEB6FB4B /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B27685C378F707DE43E528F /* AuthAPI.swift */; };
@@ -29,6 +31,7 @@
 /* Begin PBXFileReference section */
 		028F0097694CE884F5BDE4C8 /* DeviceSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceSettingsView.swift; sourceTree = "<group>"; };
 		0B27685C378F707DE43E528F /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
+		1826A9F16C91C13ED1565406 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		1D259C02B7176EDFE4EB3480 /* BetterGecko.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BetterGecko.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E9B4EF72E88994A99950C8D /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		3BE44027EFA681BA0C946D89 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
@@ -44,6 +47,7 @@
 		B2ED33D02FE3C076882F1E74 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B53EE19CFD5F73D1E5D74F7A /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 		BA2DC05244AD197D3530989E /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		C63F0159152A4A10B4A325B3 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		DEBAE0587E310D7B9BF61C2E /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		F88FAAF9764DFFA1512BA846 /* DeviceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -89,8 +93,10 @@
 				F88FAAF9764DFFA1512BA846 /* DeviceDetailView.swift */,
 				028F0097694CE884F5BDE4C8 /* DeviceSettingsView.swift */,
 				6604EB3E2A2F8351952946C3 /* EnergyView.swift */,
+				C63F0159152A4A10B4A325B3 /* InfoView.swift */,
 				DEBAE0587E310D7B9BF61C2E /* LoginView.swift */,
 				3BE44027EFA681BA0C946D89 /* MainTabView.swift */,
+				1826A9F16C91C13ED1565406 /* ProfileView.swift */,
 				79B003BA5DE6358CB7205782 /* SettingsView.swift */,
 				A0CD464A0611FD518136D5A9 /* SplashView.swift */,
 			);
@@ -142,7 +148,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1600;
+				LastUpgradeCheck = 2650;
 			};
 			buildConfigurationList = 1427C38399CCBCF2475A441E /* Build configuration list for PBXProject "BetterGecko" */;
 			developmentRegion = en;
@@ -188,11 +194,13 @@
 				A346216FD1F5E85F1CD754EC /* DeviceAPI.swift in Sources */,
 				C501564CDBBD5161FF18F332 /* DeviceDetailView.swift in Sources */,
 				3A04E45BBEEBB776C178AFC0 /* DeviceSettingsView.swift in Sources */,
+				8FB83F1ED68349798988F56A /* InfoView.swift in Sources */,
 				D6E580F4D865417E19BDDE84 /* EnergyView.swift in Sources */,
 				0DF083C1EEEE6EE5A11FB68B /* KeychainHelper.swift in Sources */,
 				0E4F5D290A696F2F1A837845 /* LoginView.swift in Sources */,
 				123CD30A52CC52FAE26CB9D8 /* MainTabView.swift in Sources */,
 				EDAED7B742CE99C596C47B98 /* Models.swift in Sources */,
+				997A479D94F8253E59FAF965 /* ProfileView.swift in Sources */,
 				A1699F606934E8E0AD201CDC /* SettingsView.swift in Sources */,
 				4C41CB9F928A9E4D055ADFC4 /* SplashView.swift in Sources */,
 			);
@@ -212,8 +220,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bettergecko.app;
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -229,8 +241,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bettergecko.app;
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -239,6 +255,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -271,8 +288,10 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = Y273835UA7;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -288,6 +307,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.bettergecko.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.9;
@@ -298,6 +318,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -330,8 +351,10 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = Y273835UA7;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -354,6 +377,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.bettergecko.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.9;
