@@ -177,10 +177,10 @@ struct DeviceDetailView: View {
             StatCard(title: "MPPT Voltage",     value: latest?.mpptVoltage.map { "\($0) V" } ?? "—",                     icon: "bolt.circle.fill",         color: .blue)
             StatCard(title: "Mode",             value: modeLabel,                                                          icon: "slider.horizontal.3",      color: .green)
             StatCard(title: "Solar Active",     value: formatDuration(s.solarSecs),                                       icon: "sun.max.fill",             color: .orange)
-            StatCard(title: "Element Active",   value: formatDuration(s.elementSecs),                                     icon: "bolt.fill",                color: .red)
+            StatCard(title: "AC Active",         value: formatDuration(s.elementSecs),                                     icon: "bolt.fill",                color: .red)
             StatCard(title: "Idle / Off",       value: formatDuration(s.idleSecs),                                        icon: "moon.fill",                color: .blue)
             StatCard(title: "Solar (Week)",      value: pvUsageWeek.map  { formatDuration(Double($0) * 60) } ?? "—",    icon: "sun.max.fill",             color: .orange)
-            StatCard(title: "Element (Week)",   value: acUsageWeek.map  { formatDuration(Double($0) * 60) } ?? "—",    icon: "bolt.fill",                color: .red)
+            StatCard(title: "AC (Week)",        value: acUsageWeek.map  { formatDuration(Double($0) * 60) } ?? "—",    icon: "bolt.fill",                color: .red)
         }
     }
 
