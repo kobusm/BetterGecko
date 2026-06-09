@@ -11,8 +11,8 @@ private struct GeckoMode: Identifiable {
 private let geckoModes: [GeckoMode] = [
     GeckoMode(id: "ALL_OFF",   label: "Off",             icon: "power"),
     GeckoMode(id: "PV_ONLY",   label: "Solar Only",      icon: "sun.max.fill"),
-    GeckoMode(id: "AC_AND_PV", label: "Solar + Element", icon: "sun.and.horizon.fill"),
-    GeckoMode(id: "AC_ONLY",   label: "Element Only",    icon: "bolt.fill"),
+    GeckoMode(id: "AC_AND_PV", label: "Solar + AC",       icon: "sun.and.horizon.fill"),
+    GeckoMode(id: "AC_ONLY",   label: "AC Only",          icon: "bolt.fill"),
 ]
 
 // MARK: - Persisted settings

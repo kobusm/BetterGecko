@@ -56,7 +56,6 @@ struct DeviceDetailView: View {
     @State private var history: [HistoryPoint] = []
     @State private var pvUsageWeek: Int?
     @State private var acUsageWeek: Int?
-    @State private var savingsWeek: Double?
     @State private var isLoading = true
     @State private var error: String?
     @State private var showRename = false
@@ -176,16 +175,34 @@ struct DeviceDetailView: View {
             StatCard(title: "State",            value: GeckoState(rawString: latest?.state).label,                        icon: GeckoState(rawString: latest?.state).symbolName, color: .orange)
             StatCard(title: "PV Voltage",       value: latest?.pvVoltage.map   { "\($0) V" } ?? "—",                     icon: "sun.max.fill",             color: .orange)
             StatCard(title: "MPPT Voltage",     value: latest?.mpptVoltage.map { "\($0) V" } ?? "—",                     icon: "bolt.circle.fill",         color: .blue)
+            StatCard(title: "Mode",             value: modeLabel,                                                          icon: "slider.horizontal.3",      color: .green)
             StatCard(title: "Solar Active",     value: formatDuration(s.solarSecs),                                       icon: "sun.max.fill",             color: .orange)
             StatCard(title: "Element Active",   value: formatDuration(s.elementSecs),                                     icon: "bolt.fill",                color: .red)
             StatCard(title: "Idle / Off",       value: formatDuration(s.idleSecs),                                        icon: "moon.fill",                color: .blue)
             StatCard(title: "Solar (Week)",      value: pvUsageWeek.map  { formatDuration(Double($0) * 60) } ?? "—",    icon: "sun.max.fill",             color: .orange)
             StatCard(title: "Element (Week)",   value: acUsageWeek.map  { formatDuration(Double($0) * 60) } ?? "—",    icon: "bolt.fill",                color: .red)
-            StatCard(title: "Savings (Week)",   value: savingsWeek.map  { String(format: "R %.2f", $0) } ?? "—",       icon: "banknote",                 color: .green)
         }
     }
 
     // MARK: - Helpers
+
+    private var modeLabel: String {
+        struct _S: Decodable { var mode: String = "AC_AND_PV" }
+        let mode: String
+        if let data = UserDefaults.standard.data(forKey: "device_settings_\(device.geckoSerialNumber)"),
+           let s = try? JSONDecoder().decode(_S.self, from: data) {
+            mode = s.mode
+        } else {
+            mode = "AC_AND_PV"
+        }
+        switch mode {
+        case "ALL_OFF":   return "Off"
+        case "PV_ONLY":   return "Solar Only"
+        case "AC_AND_PV": return "Solar + AC"
+        case "AC_ONLY":   return "AC Only"
+        default:          return mode
+        }
+    }
 
     private var tempColor: Color {
         guard let t = latest?.temperature else { return .secondary }
@@ -204,10 +221,9 @@ struct DeviceDetailView: View {
         error = nil
         do {
             let response = try await DeviceAPI.shared.getPerformanceHistory(gsn: device.geckoSerialNumber)
-            history       = response.toHistoryPoints()
-            pvUsageWeek   = response.pvUsageWeek
-            acUsageWeek   = response.acUsageWeek
-            savingsWeek   = response.savingsWeek
+            history     = response.toHistoryPoints()
+            pvUsageWeek = response.pvUsageWeek
+            acUsageWeek = response.acUsageWeek
         } catch {
             self.error = error.localizedDescription
         }
