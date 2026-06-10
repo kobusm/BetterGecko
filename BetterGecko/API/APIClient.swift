@@ -1,8 +1,17 @@
 import Foundation
 
 private let baseURL = URL(string: "https://geckows.co.za")!
-private let staticAppToken = "a6d2818e0657b5efb2e3ef9fecfe4731"
+// Static app token, captured from the official app's live traffic. The server rotates
+// it periodically; if /auth/signin starts returning the app's JSON "Invalid token"
+// error, re-capture the current value. /auth/* and /app/deviceid send this token;
+// per-device data calls send the session token returned by /auth/signin instead.
+private let staticAppToken = "1f31271a71c05ca1b9c6c52a14086bb9"
+// Must be a plain integer; the official app sends "17".
 private let appVersion = "17"
+// The server's nginx gateway returns a bare 403 to any request whose User-Agent
+// contains "bettergecko" (URLSession's default UA is derived from the bundle name).
+// Send the same iPhone Safari UA the official app uses so requests reach the API.
+private let userAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
 
 enum APIError: LocalizedError {
     case httpError(Int, String)
@@ -54,6 +63,7 @@ actor APIClient {
         var urlRequest = URLRequest(url: urlComponents.url!, cachePolicy: .reloadIgnoringLocalCacheData)
         urlRequest.httpMethod = method
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.setValue(userAgent, forHTTPHeaderField: "User-Agent")
         urlRequest.setValue(appVersion, forHTTPHeaderField: "X-App-Version")
         urlRequest.setValue(appVersion, forHTTPHeaderField: "X-Android-App-Version")
         urlRequest.setValue(appVersion, forHTTPHeaderField: "X-IOS-App-Version")
@@ -74,7 +84,12 @@ actor APIClient {
         guard let http = response as? HTTPURLResponse else { throw APIError.httpError(0, "No response") }
         print("[API] \(http.statusCode) \(path)")
 
-        if http.statusCode == 401 || http.statusCode == 403 {
+        // Only 401 means "token expired" — safe to silently re-login and replay.
+        // 403 is "forbidden" (e.g. app-version/build rejected, or account locked):
+        // re-logging in just repeats the same rejected signin in a tight loop, which
+        // can trigger a server-side account lockout. Let 403 fall through to the
+        // error block below so it surfaces the server's message instead of looping.
+        if http.statusCode == 401 {
             // Don't retry auth requests themselves (avoids infinite loop)
             guard overrideToken == nil else { throw APIError.unauthorized }
             // Try silent re-login, then replay with the fresh session token

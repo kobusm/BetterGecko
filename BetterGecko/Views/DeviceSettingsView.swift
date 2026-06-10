@@ -160,15 +160,15 @@ struct DeviceSettingsView: View {
             VStack(alignment: .leading, spacing: 6) {
                 HStack(spacing: 4) {
                     Image(systemName: "bolt.fill").foregroundStyle(.red).font(.caption)
-                    Text("Gecko will use AC to heat to ") + Text("\(Int(acTargetTemp))°C").bold()
+                    Text("Gecko will use AC to heat to \(Text("\(Int(acTargetTemp))°C").bold())")
                 }
                 HStack(alignment: .top, spacing: 4) {
                     Image(systemName: "sun.max.fill").foregroundStyle(.orange).font(.caption)
-                    (Text("Gecko will use PV to heat from ") + Text("\(Int(acTargetTemp))°C").bold() + Text(" to ") + Text("\(Int(pvTargetTemp))°C").bold())
+                    Text("Gecko will use PV to heat from \(Text("\(Int(acTargetTemp))°C").bold()) to \(Text("\(Int(pvTargetTemp))°C").bold())")
                 }
                 HStack(alignment: .top, spacing: 4) {
                     Image(systemName: "exclamationmark.circle").foregroundStyle(.secondary).font(.caption)
-                    (Text("If no AC is available, Gecko will use PV to heat to ") + Text("\(Int(pvTargetTemp))°C").bold())
+                    Text("If no AC is available, Gecko will use PV to heat to \(Text("\(Int(pvTargetTemp))°C").bold())")
                         .foregroundStyle(.secondary)
                 }
             }

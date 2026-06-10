@@ -58,14 +58,46 @@ a6d2818e0657b5efb2e3ef9fecfe4731
 ### Required Headers on Every Request
 
 ```
-Authorization: Bearer a6d2818e0657b5efb2e3ef9fecfe4731
-X-App-Version: 17
-X-Android-App-Version: 17
-X-IOS-App-Version: 17
+Authorization: Bearer <token — see token model below>
+X-IOS-App-Version: 17          # iOS clients
+X-Android-App-Version: 17      # Android clients
 Content-Type: application/json
 ```
 
-> All three version headers must be present on every request. The static token above goes in `Authorization` on **every** call — including `/auth/signin`.
+> The version header must be a **plain integer** (e.g. `17`). A missing or non-integer value (like a dotted `2.0.10`) is rejected **before** the password check with **HTTP 418** and body `{"customMsg":"Your app version is too old. Please update to continue using the system."}`. The official app currently sends `17`.
+
+> **⚠ User-Agent block.** The server's nginx gateway returns a bare HTML **403 Forbidden** to any request whose `User-Agent` contains the string `bettergecko` (case-insensitive), before the request reaches the application. Set an explicit `User-Agent` that does not contain that string — the iOS client uses the official app's iPhone Safari UA: `Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148`. OkHttp's default (`okhttp/x.y`) is unaffected, but do not set a UA derived from the app name.
+
+#### Two-token model (important)
+
+There are **two** bearer tokens:
+
+1. **Static app token** — a fixed, app-wide token (not user-specific). Current value, captured from the official app's live traffic:
+   ```
+   b0f6fab1e44009644b6a7d7858741316
+   ```
+   > ⚠ This token has been **rotated** by the server before. An old value (`a6d2818e0657b5efb2e3ef9fecfe4731`) still passes the version gate but is rejected **after a valid login with HTTP 403**. If signin starts returning 403, the static token has rotated again — re-capture it from the official app with a proxy (Proxyman/Charles).
+
+2. **Session token** — returned in the `token` field of the `/auth/signin` response; represents the logged-in user.
+
+**Which token each endpoint uses:**
+
+| Endpoint | Bearer token |
+|---|---|
+| `POST /auth/checkuser` | static app token |
+| `POST /auth/signin` | static app token |
+| `POST /auth/logout` | static app token |
+| `POST /app/deviceid` | static app token |
+| `GET /auth/getUserInfo` | static app token |
+| `GET /app/getPerformanceHistory` | **session** token |
+| `GET /app/hasControl` | **session** token |
+| `GET /uv/uvindex` | **session** token |
+| `POST /app/setMode` | **session** token |
+| `POST /app/setTemperature` | **session** token |
+
+Rule of thumb: **`/auth/*` and `/app/deviceid` use the static app token; per-device data calls use the session token.**
+
+> Signin also sets an `xsrf-token` cookie (`Set-Cookie: xsrf-token=…`). A standard cookie-jar (OkHttp `CookieJar`, or `URLSession`'s automatic cookie storage) handles it — it is **not** required as a request header on the calls observed.
 
 ### Session Token (User-Specific)
 
@@ -121,7 +153,9 @@ In practice: when any API call returns 401, call `/auth/signin` again with store
 
 ## 3. All API Endpoints
 
-All request bodies are JSON. The `token` field in each request body is the **session token** returned by `/auth/signin` (not the static app token).
+All request bodies are JSON. **Authentication is via the `Authorization` header, not the body** — no endpoint takes a `token` field in its body. Which token goes in the header (static vs session) is per the table in Section 2. Device identifiers in bodies and query params use the key **`geckoSerialNumber`**.
+
+> ⚠ The per-endpoint request/response JSON shapes in the sub-sections below were drafted from the iOS source and may show a `token` field in the body or a `gsn` param — disregard those; the authoritative shapes are in the quick-reference (Appendix B), captured from the official app's live traffic.
 
 ---
 
@@ -987,22 +1021,26 @@ class AppState @Inject constructor(
 
 ```
 Base URL:  https://geckows.co.za
-App Token: a6d2818e0657b5efb2e3ef9fecfe4731 (static, in Authorization header always)
+Static app token: b0f6fab1e44009644b6a7d7858741316  (Authorization header on /auth/* and /app/deviceid)
+Session token:    from /auth/signin response .token  (Authorization header on data calls)
 
 Headers (every request):
-  Authorization: Bearer a6d2818e0657b5efb2e3ef9fecfe4731
-  X-App-Version: 17
-  X-Android-App-Version: 17
-  X-IOS-App-Version: 17
+  Authorization: Bearer <static OR session token — see token table>
+  X-IOS-App-Version: 17        (or X-Android-App-Version: 17)
   Content-Type: application/json
 
-POST /auth/signin          body: { email, pw }
-POST /app/deviceid         body: { token }
-POST /auth/logout           body: { token }
-GET  /app/getPerformanceHistory   ?gsn=&token=
-GET  /app/hasControl              ?gsn=&token=
-POST /app/setTemperature   body: { token, gsn, acMax, pvMax }
-POST /app/setMode           body: { token, gsn, geckoMode }
+Tokens go in the Authorization HEADER, never in the body. Bodies/params use
+"geckoSerialNumber" (not "gsn"). GSN is normalised lowercase, no colons (e.g. fce8c0de16e0).
+
+POST /auth/checkuser        [static]  body: { email }
+POST /auth/signin           [static]  body: { email, pw }            -> { xsrfToken, token, role } + Set-Cookie xsrf-token
+POST /app/deviceid          [static]  body: {}                       -> { deviceID, role }
+POST /auth/logout           [static]  body: {}
+GET  /app/getPerformanceHistory [session]  ?geckoSerialNumber=
+GET  /app/hasControl            [session]  ?geckoSerialNumber=
+GET  /uv/uvindex                [session]  ?geckoSerialNumber=
+POST /app/setTemperature    [session]  body: { geckoSerialNumber, acMax, pvMax }
+POST /app/setMode           [session]  body: { geckoSerialNumber, geckoMode }
 ```
 
 ---
