@@ -30,9 +30,10 @@ struct AuthAPI {
         )
         await client.setToken(authData.token)
 
-        // /app/deviceid is an app-level call: the official app sends the STATIC app
-        // token here, not the per-user session token.
-        let deviceData = try await client.postWith("/app/deviceid", body: [:], token: staticToken, as: DeviceIDResponse.self)
+        // /app/deviceid is authenticated with the per-user session token from signin.
+        // (The official app instead uses the static token + session cookie; BetterGecko
+        // doesn't carry that cookie, so we use the session-token bearer, which works.)
+        let deviceData = try await client.post("/app/deviceid", body: [:], as: DeviceIDResponse.self)
         await client.storeDeviceID(deviceData.deviceID)
 
         // Persist credentials so we can re-login automatically
@@ -78,7 +79,7 @@ struct AuthAPI {
     // MARK: - Logout
 
     func logout() async {
-        _ = try? await client.postWith("/auth/logout", body: [:], token: staticToken, as: EmptyResponse.self)
+        _ = try? await client.post("/auth/logout", body: [:], as: EmptyResponse.self)
         await client.clearSession()
         Keychain.delete(forKey: keychainEmail)
         Keychain.delete(forKey: keychainPassword)
@@ -87,7 +88,7 @@ struct AuthAPI {
     // MARK: - Private
 
     private func fetchSessionInfo() async throws -> SessionInfo {
-        let deviceData = try await client.postWith("/app/deviceid", body: [:], token: staticToken, as: DeviceIDResponse.self)
+        let deviceData = try await client.post("/app/deviceid", body: [:], as: DeviceIDResponse.self)
         await client.storeDeviceID(deviceData.deviceID)
         let deviceID = deviceData.deviceID
         let email    = Keychain.load(forKey: keychainEmail) ?? String(deviceID.dropLast(32))
