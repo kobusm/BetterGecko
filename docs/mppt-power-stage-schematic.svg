@@ -1,0 +1,134 @@
+<svg viewBox="0 0 940 590" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schematic of the MPPT buck converter power stage">
+  <defs>
+    <marker id="arrCopper2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#d99a4e"/>
+    </marker>
+  </defs>
+  <style>
+    text{font-family:ui-monospace,"SF Mono","Cascadia Code","Roboto Mono",Menlo,Consolas,monospace;}
+    .wire{stroke:#d99a4e;stroke-width:2;fill:none;}
+    .wireS{stroke:#6dd3cf;stroke-width:1.75;fill:none;}
+    .gnd{stroke:#a9c4b4;stroke-width:2;fill:none;}
+    .pad{fill:#f2bb70;}
+    .chip{fill:#0f4433;stroke:#d99a4e;stroke-width:1.4;}
+    .chip-ic{fill:#124d3a;stroke:#6dd3cf;stroke-width:1.4;}
+    .ref{fill:#f2bb70;font-size:12px;font-weight:600;}
+    .val{fill:#a9c4b4;font-size:9.5px;}
+    .term{fill:#eef3ee;font-size:12px;font-weight:600;}
+    .netlab{fill:#6dd3cf;font-size:10px;}
+    .gndsym{stroke:#a9c4b4;stroke-width:1.6;}
+  </style>
+
+  <rect x="0" y="0" width="940" height="590" fill="#082419"/>
+
+  <circle class="pad" cx="40" cy="150" r="4"/>
+  <text class="term" x="10" y="130">PV+</text>
+  <line class="wire" x1="40" y1="150" x2="76" y2="150"/>
+
+  <rect class="chip" x="76" y="136" width="44" height="28" rx="3"/>
+  <text class="ref" x="98" y="128" text-anchor="middle">F1</text>
+  <text class="val" x="98" y="176" text-anchor="middle">fuse</text>
+  <line class="wire" x1="120" y1="150" x2="146" y2="150"/>
+
+  <rect class="chip" x="146" y="136" width="50" height="28" rx="3"/>
+  <text class="ref" x="171" y="128" text-anchor="middle">Rs1</text>
+  <text class="val" x="171" y="176" text-anchor="middle">I_pv shunt</text>
+  <line class="wire" x1="196" y1="150" x2="440" y2="150"/>
+
+  <rect class="chip-ic" x="140" y="205" width="90" height="34" rx="4"/>
+  <text class="term" x="185" y="226" text-anchor="middle" font-size="10.5">I-SENSE AMP</text>
+  <line class="wireS" x1="152" y1="164" x2="152" y2="205"/>
+  <line class="wireS" x1="190" y1="164" x2="190" y2="205"/>
+  <line class="wireS" x1="170" y1="239" x2="170" y2="430"/>
+  <text class="netlab" x="176" y="330">I_pv</text>
+
+  <line class="wire" x1="230" y1="150" x2="230" y2="205"/>
+  <line class="wire" x1="212" y1="205" x2="248" y2="205" style="stroke-width:3"/>
+  <line class="wire" x1="212" y1="215" x2="248" y2="215" style="stroke-width:3"/>
+  <line class="wire" x1="230" y1="215" x2="230" y2="340"/>
+  <text class="ref" x="230" y="200" text-anchor="middle" font-size="11">Cin</text>
+
+  <rect class="chip" x="298" y="150" width="24" height="46" rx="2"/>
+  <text class="ref" x="345" y="165" font-size="11">R1</text>
+  <line class="wire" x1="310" y1="196" x2="310" y2="222"/>
+  <circle class="pad" cx="310" cy="222" r="3.5"/>
+  <rect class="chip" x="298" y="222" width="24" height="46" rx="2"/>
+  <text class="ref" x="345" y="252" font-size="11">R2</text>
+  <line class="wire" x1="310" y1="268" x2="310" y2="340"/>
+  <path class="wireS" d="M310,222 L352,222 L352,430" fill="none"/>
+  <text class="netlab" x="358" y="330">V_pv</text>
+
+  <rect class="chip" x="418" y="118" width="60" height="86" rx="5"/>
+  <text class="ref" x="448" y="108" text-anchor="middle">Q1</text>
+  <text class="val" x="448" y="218" text-anchor="middle">NMOS &#183; high-side</text>
+  <text class="val" x="448" y="150" text-anchor="middle">D</text>
+  <text class="val" x="448" y="196" text-anchor="middle">S</text>
+  <line class="wire" x1="440" y1="150" x2="418" y2="150"/>
+  <text class="val" x="405" y="146" text-anchor="end">G</text>
+
+  <rect class="chip-ic" x="330" y="230" width="72" height="40" rx="4"/>
+  <text class="term" x="366" y="248" text-anchor="middle" font-size="10">GATE</text>
+  <text class="term" x="366" y="260" text-anchor="middle" font-size="10">DRIVER</text>
+  <path class="wireS" d="M402,150 L410,150" fill="none"/>
+  <path class="wireS" d="M366,230 L366,150 L402,150" fill="none"/>
+  <line class="wireS" x1="366" y1="270" x2="366" y2="430"/>
+  <text class="netlab" x="372" y="360">PWM</text>
+
+  <circle class="pad" cx="448" cy="204" r="4"/>
+  <line class="wire" x1="448" y1="204" x2="448" y2="240"/>
+  <polygon points="438,240 458,240 448,262" style="fill:#d99a4e;stroke:none"/>
+  <line class="wire" x1="438" y1="262" x2="458" y2="262"/>
+  <line class="wire" x1="448" y1="262" x2="448" y2="340"/>
+  <text class="ref" x="470" y="255" font-size="11">D2</text>
+
+  <path class="wire" d="M448,204 H488 a10,10 0 0 1 20,0 a10,10 0 0 1 20,0 a10,10 0 0 1 20,0 a10,10 0 0 1 20,0 H600" fill="none"/>
+  <text class="ref" x="524" y="192" text-anchor="middle">L1</text>
+
+  <circle class="pad" cx="600" cy="204" r="4"/>
+
+  <line class="wire" x1="600" y1="204" x2="600" y2="255"/>
+  <line class="wire" x1="582" y1="255" x2="618" y2="255" style="stroke-width:3"/>
+  <line class="wire" x1="582" y1="265" x2="618" y2="265" style="stroke-width:3"/>
+  <line class="wire" x1="600" y1="265" x2="600" y2="340"/>
+  <text class="ref" x="600" y="248" text-anchor="middle" font-size="11">Cout</text>
+
+  <rect class="chip" x="648" y="204" width="24" height="46" rx="2"/>
+  <text class="ref" x="695" y="219" font-size="11">R3</text>
+  <line class="wire" x1="660" y1="250" x2="660" y2="276"/>
+  <circle class="pad" cx="660" cy="276" r="3.5"/>
+  <rect class="chip" x="648" y="276" width="24" height="46" rx="2"/>
+  <text class="ref" x="695" y="306" font-size="11">R4</text>
+  <line class="wire" x1="660" y1="322" x2="660" y2="340"/>
+  <path class="wireS" d="M660,276 L630,276 L630,430" fill="none"/>
+  <text class="netlab" x="600" y="360" text-anchor="end">V_mppt</text>
+
+  <line class="wire" x1="600" y1="204" x2="760" y2="204" marker-end="url(#arrCopper2)"/>
+  <circle class="pad" cx="760" cy="204" r="4"/>
+  <text class="term" x="775" y="200">OUT+</text>
+  <text class="val" x="775" y="216">&#8594; DC element (tank)</text>
+
+  <line class="gnd" x1="40" y1="340" x2="760" y2="340"/>
+  <circle class="pad" cx="40" cy="340" r="4"/>
+  <text class="term" x="10" y="360">PV&#8722;</text>
+  <circle class="pad" cx="760" cy="340" r="4"/>
+  <text class="term" x="775" y="345">OUT&#8722;</text>
+  <text class="val" x="775" y="360">return</text>
+  <g transform="translate(400,340)">
+    <line class="gndsym" x1="0" y1="0" x2="0" y2="10"/>
+    <line class="gndsym" x1="-10" y1="10" x2="10" y2="10"/>
+    <line class="gndsym" x1="-6" y1="15" x2="6" y2="15"/>
+    <line class="gndsym" x1="-2" y1="20" x2="2" y2="20"/>
+  </g>
+
+  <rect class="chip-ic" x="770" y="90" width="130" height="46" rx="5"/>
+  <text class="term" x="835" y="110" text-anchor="middle" font-size="11">AUX SUPPLY</text>
+  <text class="val" x="835" y="124" text-anchor="middle">PV &#8594; 5V / 3V3</text>
+  <path class="wire" d="M270,150 L270,90 L768,90" fill="none"/>
+  <path class="wireS" d="M810,136 L810,430" fill="none"/>
+  <text class="netlab" x="816" y="300">+3V3</text>
+
+  <rect class="chip-ic" x="140" y="430" width="700" height="80" rx="6"/>
+  <text class="term" x="490" y="462" text-anchor="middle" font-size="13">MCU</text>
+  <text class="val" x="490" y="480" text-anchor="middle">P&amp;O perturb-and-observe MPPT loop</text>
+  <text class="val" x="490" y="496" text-anchor="middle">ADC: I_pv &#183; V_pv &#183; V_mppt &nbsp;|&nbsp; PWM out: Q1 gate</text>
+</svg>

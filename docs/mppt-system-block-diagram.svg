@@ -1,0 +1,99 @@
+<svg viewBox="0 0 1080 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="System block diagram of the GeyserGecko MPPT controller">
+  <defs>
+    <marker id="arrCopper" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#d99a4e"/>
+    </marker>
+    <marker id="arrTeal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#6dd3cf"/>
+    </marker>
+  </defs>
+  <style>
+    text{font-family:ui-monospace,"SF Mono","Cascadia Code","Roboto Mono",Menlo,Consolas,monospace;}
+    .blk{fill:#0f4433;stroke:#d99a4e;stroke-width:1.5;}
+    .blk-ic{fill:#124d3a;stroke:#6dd3cf;stroke-width:1.5;}
+    .blk-tank{fill:none;stroke:#d99a4e;stroke-width:1.5;stroke-dasharray:5 4;}
+    .lab{fill:#eef3ee;font-size:13px;font-weight:600;}
+    .lab-sm{fill:#a9c4b4;font-size:10.5px;}
+    .lab-tag-t{fill:#6dd3cf;font-size:10px;letter-spacing:.04em;}
+    .wPow{stroke:#d99a4e;stroke-width:3;fill:none;marker-end:url(#arrCopper);}
+    .wSig{stroke:#6dd3cf;stroke-width:2;fill:none;marker-end:url(#arrTeal);}
+    .wSigD{stroke:#6dd3cf;stroke-width:2;fill:none;stroke-dasharray:6 5;marker-end:url(#arrTeal);}
+  </style>
+
+  <rect x="0" y="0" width="1080" height="620" fill="#082419"/>
+
+  <rect class="blk" x="760" y="26" width="220" height="56" rx="6"/>
+  <text class="lab" x="870" y="50" text-anchor="middle">MAINS AC SUPPLY</text>
+  <text class="lab-sm" x="870" y="66" text-anchor="middle">230V &#183; backup heat source</text>
+
+  <rect class="blk-ic" x="760" y="104" width="220" height="52" rx="6"/>
+  <text class="lab" x="870" y="126" text-anchor="middle">SSR / RELAY</text>
+  <text class="lab-sm" x="870" y="141" text-anchor="middle">AC element switch</text>
+
+  <line class="wPow" x1="870" y1="82" x2="870" y2="102"/>
+
+  <rect class="blk-tank" x="760" y="190" width="220" height="290" rx="10"/>
+  <text class="lab-sm" x="870" y="212" text-anchor="middle" style="letter-spacing:.08em;">GEYSER TANK</text>
+
+  <rect class="blk" x="778" y="224" width="184" height="58" rx="5"/>
+  <text class="lab" x="870" y="248" text-anchor="middle" font-size="12">AC ELEMENT</text>
+  <text class="lab-sm" x="870" y="262" text-anchor="middle">mains-driven, relay Rly1</text>
+
+  <rect class="blk" x="778" y="298" width="184" height="58" rx="5"/>
+  <text class="lab" x="870" y="322" text-anchor="middle" font-size="12">DC ELEMENT</text>
+  <text class="lab-sm" x="870" y="336" text-anchor="middle">PV-driven via MPPT stage</text>
+
+  <rect class="blk" x="778" y="372" width="184" height="58" rx="5"/>
+  <text class="lab" x="870" y="396" text-anchor="middle" font-size="12">TEMP SENSOR</text>
+  <text class="lab-sm" x="870" y="410" text-anchor="middle">tank water probe</text>
+
+  <line class="wPow" x1="870" y1="156" x2="870" y2="222"/>
+
+  <rect class="blk" x="60" y="290" width="200" height="100" rx="6"/>
+  <text class="lab" x="160" y="330" text-anchor="middle">PV SOLAR ARRAY</text>
+  <text class="lab-sm" x="160" y="348" text-anchor="middle">rooftop panel string</text>
+  <text class="lab-sm" x="160" y="364" text-anchor="middle">V_pv &#183; I_pv</text>
+
+  <rect class="blk" x="380" y="290" width="220" height="100" rx="6"/>
+  <text class="lab" x="490" y="326" text-anchor="middle">MPPT POWER STAGE</text>
+  <text class="lab-sm" x="490" y="344" text-anchor="middle">buck converter, see schematic</text>
+  <text class="lab-sm" x="490" y="360" text-anchor="middle">reports MPPT voltage</text>
+
+  <line class="wPow" x1="260" y1="340" x2="378" y2="340"/>
+  <line class="wPow" x1="600" y1="330" x2="776" y2="325"/>
+
+  <rect class="blk-ic" x="380" y="480" width="220" height="92" rx="6"/>
+  <text class="lab" x="490" y="512" text-anchor="middle">MCU</text>
+  <text class="lab-sm" x="490" y="528" text-anchor="middle">P&amp;O MPPT algorithm</text>
+  <text class="lab-sm" x="490" y="542" text-anchor="middle">mode &amp; setpoint logic</text>
+  <text class="lab-sm" x="490" y="558" text-anchor="middle">&#8594; geckows.co.za telemetry</text>
+
+  <line class="wSig" x1="425" y1="480" x2="425" y2="392"/>
+  <text class="lab-tag-t" x="432" y="440">PWM</text>
+  <line class="wSig" x1="560" y1="392" x2="560" y2="480"/>
+  <text class="lab-tag-t" x="480" y="415">V_pv, I_pv, V_mppt sense</text>
+
+  <path class="wSig" d="M778,410 L710,410 L710,536 L602,536" fill="none"/>
+  <text class="lab-tag-t" x="640" y="530">TEMP</text>
+
+  <path class="wSig" d="M600,492 L660,492 L660,60 L758,60" fill="none"/>
+  <text class="lab-tag-t" x="662" y="270" transform="rotate(-90 662 270)">RELAY CTRL / MODE</text>
+
+  <rect class="blk-ic" x="680" y="500" width="140" height="60" rx="6"/>
+  <text class="lab" x="750" y="524" text-anchor="middle" font-size="12">WIFI MODULE</text>
+  <text class="lab-sm" x="750" y="540" text-anchor="middle">station mode</text>
+
+  <rect class="blk-ic" x="880" y="500" width="160" height="60" rx="6"/>
+  <text class="lab" x="960" y="520" text-anchor="middle" font-size="11.5">geckows.co.za API</text>
+  <text class="lab-sm" x="960" y="536" text-anchor="middle">&#8594; BetterGecko app</text>
+
+  <line class="wSig" x1="600" y1="526" x2="678" y2="526"/>
+  <line class="wSigD" x1="820" y1="530" x2="878" y2="522"/>
+
+  <text class="lab-sm" x="60" y="30">&#8212; power path</text>
+  <line x1="150" y1="26" x2="190" y2="26" style="stroke:#d99a4e;stroke-width:3"/>
+  <text class="lab-sm" x="210" y="30">&#8212; control / sense</text>
+  <line x1="330" y1="26" x2="370" y2="26" style="stroke:#6dd3cf;stroke-width:2"/>
+  <text class="lab-sm" x="390" y="30">- - wireless / internet</text>
+  <line x1="580" y1="26" x2="620" y2="26" style="stroke:#6dd3cf;stroke-width:2;stroke-dasharray:6 5"/>
+</svg>
