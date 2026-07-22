@@ -225,15 +225,26 @@ struct DeviceSettingsView: View {
 
     private func loadSettings() async {
         isLoading = true
-        // The API has no endpoint that returns current setpoints or mode —
-        // /app/getDeviceSettings returns device profile only (panels, geyser size, etc.)
-        // /app/getPerformanceHistory returns telemetry only.
-        // We rely on values persisted locally after each successful save.
-        // Only fetch hasControl, which gates mode changes.
         if let ctrl = try? await DeviceAPI.shared.hasControl(gsn: device.geckoSerialNumber) {
             hasControl = ctrl.controlled
         }
-        // Treat persisted mode as the server baseline so we only send setMode when changed.
+
+        // The REST API exposes no current setpoints/mode; the live values are only on
+        // the socket.io realtime channel. Pull a snapshot so the view reflects changes
+        // made in the official app. Falls back to the locally-persisted values if the
+        // device doesn't report in time.
+        if let deviceID = await APIClient.shared.storedDeviceID,
+           let live = try? await GeckoRealtime.shared.fetchSettings(gsn: device.geckoSerialNumber, deviceID: deviceID) {
+            if let ac = live.acMax { acTargetTemp = Double(ac) }
+            if let pv = live.pvMax { pvTargetTemp = Double(pv) }
+            if let mode = live.geckoMode { selectedMode = mode }
+            if live.hasSetpoints || live.geckoMode != nil {
+                persistSettings()   // keep local cache in sync with the device
+            }
+        }
+
+        // Treat the (now live-updated) mode as the server baseline so we only send
+        // setMode when the user actually changes it.
         serverMode = selectedMode
         isLoading = false
     }
