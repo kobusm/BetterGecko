@@ -15,27 +15,6 @@ private let geckoModes: [GeckoMode] = [
     GeckoMode(id: "AC_ONLY",   label: "AC Only",          icon: "bolt.fill"),
 ]
 
-// MARK: - Persisted settings
-
-private struct PersistedSettings: Codable {
-    var targetTemp: Double
-    var pvTargetTemp: Double = 60
-    var mode: String = "AC_AND_PV"
-
-    static func load(gsn: String) -> PersistedSettings? {
-        guard let data = UserDefaults.standard.data(forKey: "device_settings_\(gsn)"),
-              let settings = try? JSONDecoder().decode(PersistedSettings.self, from: data)
-        else { return nil }
-        return settings
-    }
-
-    func save(gsn: String) {
-        if let data = try? JSONEncoder().encode(self) {
-            UserDefaults.standard.set(data, forKey: "device_settings_\(gsn)")
-        }
-    }
-}
-
 // MARK: - DeviceSettingsView
 
 struct DeviceSettingsView: View {
@@ -88,6 +67,17 @@ struct DeviceSettingsView: View {
 
                 temperatureSection
                 modeSection.disabled(!hasControl)
+
+                Section {
+                    NavigationLink {
+                        SchedulesView(device: device)
+                    } label: {
+                        Label("Mode Schedules", systemImage: "clock.badge.checkmark")
+                    }
+                } footer: {
+                    Text("Automatically switch mode at set times (best effort — tap the notification to apply when the app is closed).")
+                }
+                .disabled(!hasControl)
             }
 
             if let warnMsg {

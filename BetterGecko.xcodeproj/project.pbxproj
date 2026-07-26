@@ -15,12 +15,16 @@
 		384D7EEA88B4F6DE1D156A53 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2DC05244AD197D3530989E /* AppState.swift */; };
 		3A04E45BBEEBB776C178AFC0 /* DeviceSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028F0097694CE884F5BDE4C8 /* DeviceSettingsView.swift */; };
 		3F4F5FCC64F2D0EB8EB8666A /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97032742B429593997BFECB5 /* APIClient.swift */; };
+		471C7B2835F0D59BEDDDA54D /* PersistedSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A6AFF4F8818EC7501DD1E5 /* PersistedSettings.swift */; };
 		48F526F48208E34F1CB5A83E /* BetterGeckoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC0C50EF20491EF5022C26A /* BetterGeckoApp.swift */; };
 		4C41CB9F928A9E4D055ADFC4 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CD464A0611FD518136D5A9 /* SplashView.swift */; };
 		5F659E4FC660E0BBA17F7BFD /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9B4EF72E88994A99950C8D /* DashboardView.swift */; };
+		8F4A313770529BC87966B292 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EA61B3D43DCE49A36F3266 /* NotificationManager.swift */; };
 		997A479D94F8253E59FAF965 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1826A9F16C91C13ED1565406 /* ProfileView.swift */; };
+		A0CA670BEAB22DF375635A93 /* ModeSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A6C12A5DB55DFEF413AA2A /* ModeSchedule.swift */; };
 		A1699F606934E8E0AD201CDC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B003BA5DE6358CB7205782 /* SettingsView.swift */; };
 		A346216FD1F5E85F1CD754EC /* DeviceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E7EA3CEF9CC581D4E29ABC /* DeviceAPI.swift */; };
+		A8EA755957F2545C7C7AE7FD /* SchedulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3338797FCB9ED9B8080E27E0 /* SchedulesView.swift */; };
 		B2A08EFFD8DEF179DEB6FB4B /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B27685C378F707DE43E528F /* AuthAPI.swift */; };
 		BE637DDA0CD0D88D06E849AC /* AddDeviceSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71D310721C6E1658804277C /* AddDeviceSheet.swift */; };
 		C501564CDBBD5161FF18F332 /* DeviceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88FAAF9764DFFA1512BA846 /* DeviceDetailView.swift */; };
@@ -35,6 +39,7 @@
 		1826A9F16C91C13ED1565406 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		1D259C02B7176EDFE4EB3480 /* BetterGecko.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BetterGecko.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E9B4EF72E88994A99950C8D /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		3338797FCB9ED9B8080E27E0 /* SchedulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulesView.swift; sourceTree = "<group>"; };
 		3BE44027EFA681BA0C946D89 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		4DB69DF6186A72EDBA9D51B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5159C516F46FCCC7F7D241F4 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
@@ -43,15 +48,18 @@
 		7EC0C50EF20491EF5022C26A /* BetterGeckoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetterGeckoApp.swift; sourceTree = "<group>"; };
 		91E7EA3CEF9CC581D4E29ABC /* DeviceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceAPI.swift; sourceTree = "<group>"; };
 		97032742B429593997BFECB5 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		A0A6C12A5DB55DFEF413AA2A /* ModeSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeSchedule.swift; sourceTree = "<group>"; };
 		A0CD464A0611FD518136D5A9 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		A5FDCE831532BBE8E82444BA /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		A71D310721C6E1658804277C /* AddDeviceSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDeviceSheet.swift; sourceTree = "<group>"; };
 		B2ED33D02FE3C076882F1E74 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B4EA61B3D43DCE49A36F3266 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		B53EE19CFD5F73D1E5D74F7A /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 		BA2DC05244AD197D3530989E /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		CAB4BE41725F95DA5519DBEF /* GeckoRealtime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeckoRealtime.swift; sourceTree = "<group>"; };
 		DEBAE0587E310D7B9BF61C2E /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		F88FAAF9764DFFA1512BA846 /* DeviceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDetailView.swift; sourceTree = "<group>"; };
+		F8A6AFF4F8818EC7501DD1E5 /* PersistedSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistedSettings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -84,6 +92,7 @@
 				91E7EA3CEF9CC581D4E29ABC /* DeviceAPI.swift */,
 				CAB4BE41725F95DA5519DBEF /* GeckoRealtime.swift */,
 				B53EE19CFD5F73D1E5D74F7A /* KeychainHelper.swift */,
+				B4EA61B3D43DCE49A36F3266 /* NotificationManager.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -100,6 +109,7 @@
 				DEBAE0587E310D7B9BF61C2E /* LoginView.swift */,
 				3BE44027EFA681BA0C946D89 /* MainTabView.swift */,
 				1826A9F16C91C13ED1565406 /* ProfileView.swift */,
+				3338797FCB9ED9B8080E27E0 /* SchedulesView.swift */,
 				79B003BA5DE6358CB7205782 /* SettingsView.swift */,
 				A0CD464A0611FD518136D5A9 /* SplashView.swift */,
 			);
@@ -119,6 +129,8 @@
 			children = (
 				BA2DC05244AD197D3530989E /* AppState.swift */,
 				A5FDCE831532BBE8E82444BA /* Models.swift */,
+				A0A6C12A5DB55DFEF413AA2A /* ModeSchedule.swift */,
+				F8A6AFF4F8818EC7501DD1E5 /* PersistedSettings.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -205,8 +217,12 @@
 				0DF083C1EEEE6EE5A11FB68B /* KeychainHelper.swift in Sources */,
 				0E4F5D290A696F2F1A837845 /* LoginView.swift in Sources */,
 				123CD30A52CC52FAE26CB9D8 /* MainTabView.swift in Sources */,
+				A0CA670BEAB22DF375635A93 /* ModeSchedule.swift in Sources */,
 				EDAED7B742CE99C596C47B98 /* Models.swift in Sources */,
+				8F4A313770529BC87966B292 /* NotificationManager.swift in Sources */,
+				471C7B2835F0D59BEDDDA54D /* PersistedSettings.swift in Sources */,
 				997A479D94F8253E59FAF965 /* ProfileView.swift in Sources */,
+				A8EA755957F2545C7C7AE7FD /* SchedulesView.swift in Sources */,
 				A1699F606934E8E0AD201CDC /* SettingsView.swift in Sources */,
 				4C41CB9F928A9E4D055ADFC4 /* SplashView.swift in Sources */,
 			);

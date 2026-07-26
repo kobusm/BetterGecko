@@ -19,7 +19,15 @@ struct GeckoRealtime {
         var pvMax: Int?
         var geckoMode: String?   // "ALL_OFF" | "PV_ONLY" | "AC_AND_PV" | "AC_ONLY"
 
+        // Device info (from heartbeatUpdate)
+        var temperature: Double?
+        var fwVersion: String?
+        var mcuFwVersion: Int?
+        var connectedAP: String?
+        var rssi: Int?
+
         var hasSetpoints: Bool { acMax != nil && pvMax != nil }
+        var hasDeviceInfo: Bool { fwVersion != nil || rssi != nil }
         var isComplete: Bool { hasSetpoints && geckoMode != nil }
     }
 
@@ -149,6 +157,11 @@ struct GeckoRealtime {
             if let hb = arr[1] as? [String: Any] {
                 if let ac = intValue(hb["AC_MAX"]) { live.acMax = ac }
                 if let pv = intValue(hb["PV_MAX"]) { live.pvMax = pv }
+                if let t = hb["temperature"] as? Double { live.temperature = t }
+                if let fw = hb["FW_VERSION"] as? String { live.fwVersion = fw }
+                if let mcu = intValue(hb["MCU_FW_VERSION"]) { live.mcuFwVersion = mcu }
+                if let ap = hb["CONNECTED_AP_NAME"] as? String { live.connectedAP = ap }
+                if let r = intValue(hb["rssi"]) { live.rssi = r }
             }
         case "userGeckos", "onlineGeckos", "userDevices":
             if let dict = arr[1] as? [String: Any] {

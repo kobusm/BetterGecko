@@ -71,4 +71,27 @@ class AppState {
             UserDefaults.standard.set(data, forKey: manualDevicesKey)
         }
     }
+
+    // MARK: - Installation address (local only — no API to store it server-side)
+
+    func deviceAddress(gsn: String) -> String {
+        UserDefaults.standard.string(forKey: "device_address_\(gsn)") ?? ""
+    }
+
+    func setDeviceAddress(_ address: String, gsn: String) {
+        UserDefaults.standard.set(address, forKey: "device_address_\(gsn)")
+    }
+
+    // MARK: - Schedule catch-up
+
+    /// On launch/foreground, apply whichever schedule should be active now for each
+    /// device (only if that occurrence hasn't already been applied).
+    func applyActiveSchedulesIfNeeded() async {
+        for device in devices {
+            if let mode = ScheduleStore.modeToApplyOnOpen(gsn: device.geckoSerialNumber) {
+                try? await DeviceAPI.shared.setMode(gsn: device.geckoSerialNumber, geckoMode: mode)
+                PersistedSettings.updateMode(mode, gsn: device.geckoSerialNumber)
+            }
+        }
+    }
 }
