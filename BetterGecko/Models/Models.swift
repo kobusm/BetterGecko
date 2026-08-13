@@ -26,11 +26,13 @@ struct HistoryPoint: Identifiable {
     let acOutPower: Int?
     let state: String?
 
-    /// PV current in amps: I = P / V  (uses pvOutPower, falls back to pvInPower)
+    /// PV current in amps: I = P / V  (uses pvOutPower, falls back to pvInPower).
+    /// pvVoltage is already scaled (÷3) for display, so undo that here for the
+    /// physical current calculation.
     var pvCurrent: Double? {
         let power = (pvOutPower ?? 0) > 0 ? pvOutPower : pvInPower
         guard let p = power, p > 0, let v = pvVoltage, v > 0 else { return nil }
-        return Double(p) / Double(v)
+        return Double(p) / (Double(v) * 3)
     }
 
     /// Utility (element) current in amps: I = P / V
@@ -97,7 +99,7 @@ extension PerformanceHistoryResponse {
             return HistoryPoint(
                 timestamp: date,
                 temperature: temperatures?[safe: i],
-                pvVoltage: pvVoltage?[safe: i],
+                pvVoltage: pvVoltage?[safe: i].map { $0 / 3 },   // scale reported PV voltage ÷3
                 mpptVoltage: mpptVoltage?[safe: i],
                 pvInPower: pvInPower?[safe: i],
                 pvOutPower: pvOutPower?[safe: i],
@@ -109,7 +111,7 @@ extension PerformanceHistoryResponse {
 
     var latestTemperature: Double? { temperatures?.first }
     var latestState: String? { state?.first }
-    var latestPVVoltage: Int? { pvVoltage?.first }
+    var latestPVVoltage: Int? { pvVoltage?.first.map { $0 / 3 } }   // scale ÷3
 }
 
 extension Array {

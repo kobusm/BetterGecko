@@ -120,7 +120,6 @@ struct EnergyView: View {
                         pvOnChart
                         acOnChart
                         pvVoltageChart
-                        utilityVoltageChart
                     }
                     .padding(.horizontal)
                 }
@@ -251,12 +250,6 @@ struct EnergyView: View {
         intChart(title: "PV Voltage", unit: "V", color: .orange,
                  data: filteredHistory.map { ($0.timestamp, $0.pvVoltage) },
                  emptyMessage: "No PV voltage data in this range")
-    }
-
-    private var utilityVoltageChart: some View {
-        intChart(title: "MPPT Voltage", unit: "V", color: .blue,
-                 data: filteredHistory.map { ($0.timestamp, $0.mpptVoltage) },
-                 emptyMessage: "No MPPT voltage data in this range")
     }
 
     private var pvOnChart: some View {

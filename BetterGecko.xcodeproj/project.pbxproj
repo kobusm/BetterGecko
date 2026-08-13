@@ -37,7 +37,7 @@
 		028F0097694CE884F5BDE4C8 /* DeviceSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceSettingsView.swift; sourceTree = "<group>"; };
 		0B27685C378F707DE43E528F /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
 		1826A9F16C91C13ED1565406 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
-		1D259C02B7176EDFE4EB3480 /* BetterGecko.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BetterGecko.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D259C02B7176EDFE4EB3480 /* BetterGecko.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BetterGecko.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E9B4EF72E88994A99950C8D /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		3338797FCB9ED9B8080E27E0 /* SchedulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulesView.swift; sourceTree = "<group>"; };
 		3BE44027EFA681BA0C946D89 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
@@ -164,8 +164,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1600;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = 1427C38399CCBCF2475A441E /* Build configuration list for PBXProject "BetterGecko" */;
 			developmentRegion = en;
@@ -236,6 +234,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = Y273835UA7;
 				INFOPLIST_FILE = BetterGecko/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -252,6 +251,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = Y273835UA7;
 				INFOPLIST_FILE = BetterGecko/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -174,7 +174,6 @@ struct DeviceDetailView: View {
             StatCard(title: "Temperature",      value: latest?.temperature.map { String(format: "%.1f°C", $0) } ?? "—",  icon: "thermometer.medium",      color: tempColor)
             StatCard(title: "State",            value: GeckoState(rawString: latest?.state).label,                        icon: GeckoState(rawString: latest?.state).symbolName, color: .orange)
             StatCard(title: "PV Voltage",       value: latest?.pvVoltage.map   { "\($0) V" } ?? "—",                     icon: "sun.max.fill",             color: .orange)
-            StatCard(title: "MPPT Voltage",     value: latest?.mpptVoltage.map { "\($0) V" } ?? "—",                     icon: "bolt.circle.fill",         color: .blue)
             StatCard(title: "Mode",             value: modeLabel,                                                          icon: "slider.horizontal.3",      color: .green)
             StatCard(title: "Solar Active",     value: formatDuration(s.solarSecs),                                       icon: "sun.max.fill",             color: .orange)
             StatCard(title: "AC Active",         value: formatDuration(s.elementSecs),                                     icon: "bolt.fill",                color: .red)
