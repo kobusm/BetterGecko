@@ -58,7 +58,7 @@ enum GeckoState: String {
     var label: String {
         switch self {
         case .solarHeating: return "Solar Heating"
-        case .elementHeating: return "Element Heating"
+        case .elementHeating: return "AC Heating"
         case .idle: return "Idle"
         case .off: return "Off"
         case .unknown: return "Unknown"
