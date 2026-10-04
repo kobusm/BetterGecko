@@ -2,3 +2,6 @@
 # Xcode personal UI state
 xcuserdata/
 *.xcuserstate
+
+# App Store Connect API keys — never commit
+*.p8
