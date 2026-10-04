@@ -364,13 +364,13 @@ struct EnergyView: View {
 
     private func buildCSV(gsn: String) -> URL {
         let fmt = ISO8601DateFormatter()
-        var csv = "Timestamp,Temperature (°C),MPPT Voltage (V),PV On,AC On,State\n"
+        var csv = "Timestamp,Temperature (°C),PV Voltage (V),PV On,AC On,State\n"
         for p in filteredHistory {
             let ts    = fmt.string(from: p.timestamp)
             let temp  = p.temperature.map { String(format: "%.4f", $0) } ?? ""
-            let mpptV = p.mpptVoltage.map { "\($0)" } ?? ""
+            let pvV   = p.pvVoltage.map { "\($0)" } ?? ""
             let st    = p.state ?? ""
-            csv += "\(ts),\(temp),\(mpptV),\(p.pvOn),\(p.acOn),\(st)\n"
+            csv += "\(ts),\(temp),\(pvV),\(p.pvOn),\(p.acOn),\(st)\n"
         }
         let name = "\(gsn)_\(selectedRange.rawValue).csv"
         let url  = FileManager.default.temporaryDirectory.appendingPathComponent(name)

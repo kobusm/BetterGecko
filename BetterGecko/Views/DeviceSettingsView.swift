@@ -36,9 +36,14 @@ struct DeviceSettingsView: View {
     @State private var errorMsg: String?
     @State private var warnMsg: String?
 
+    @AppStorage(CostSettings.rateKey) private var electricityRate: Double = CostSettings.defaultRate
+    @AppStorage private var elementKW: Double
+
     init(device: GeckoDevice, embedded: Bool = false) {
         self.device = device
         self.embedded = embedded
+        _elementKW = AppStorage(wrappedValue: CostSettings.defaultElementKW,
+                                CostSettings.elementKey(device.geckoSerialNumber))
         let saved = PersistedSettings.load(gsn: device.geckoSerialNumber)
         _acTargetTemp = State(initialValue: saved?.targetTemp ?? 50)
         _pvTargetTemp = State(initialValue: saved?.pvTargetTemp ?? 60)
@@ -78,6 +83,8 @@ struct DeviceSettingsView: View {
                     Text("Automatically switch mode at set times (best effort — tap the notification to apply when the app is closed).")
                 }
                 .disabled(!hasControl)
+
+                costSection
             }
 
             if let warnMsg {
@@ -182,6 +189,34 @@ struct DeviceSettingsView: View {
                 .disabled(isSaving || isLoading)
                 .textCase(nil)
             }
+        }
+    }
+
+    private var costSection: some View {
+        Section {
+            HStack {
+                Text("Electricity Rate")
+                Spacer()
+                Text("R").foregroundStyle(.secondary)
+                TextField("0.00", value: $electricityRate, format: .number.precision(.fractionLength(0...4)))
+                    .keyboardType(.decimalPad)
+                    .multilineTextAlignment(.trailing)
+                    .frame(maxWidth: 90)
+                Text("/kWh").foregroundStyle(.secondary)
+            }
+            HStack {
+                Text("Element Rating")
+                Spacer()
+                TextField("4.0", value: $elementKW, format: .number.precision(.fractionLength(0...2)))
+                    .keyboardType(.decimalPad)
+                    .multilineTextAlignment(.trailing)
+                    .frame(maxWidth: 90)
+                Text("kW").foregroundStyle(.secondary)
+            }
+        } header: {
+            Label("Electricity Cost", systemImage: "banknote")
+        } footer: {
+            Text("Used on the Stats tab to estimate AC heating cost (rate × element kW × hours on). The rate applies to all devices; the element rating is for this device.")
         }
     }
 

@@ -63,6 +63,15 @@ struct DeviceDetailView: View {
     @State private var showDeviceSettings = false
     @State private var selectedRange: TimeRange = .oneDay
     @State private var exportFile: ExportFile?
+    @State private var ledger = ACUsageLedger()
+    @AppStorage(CostSettings.rateKey) private var electricityRate: Double = CostSettings.defaultRate
+    @AppStorage private var elementKW: Double
+
+    init(device: GeckoDevice) {
+        self.device = device
+        _elementKW = AppStorage(wrappedValue: CostSettings.defaultElementKW,
+                                CostSettings.elementKey(device.geckoSerialNumber))
+    }
 
     var latest: HistoryPoint? { history.last }
 
@@ -145,6 +154,7 @@ struct DeviceDetailView: View {
         .sheet(isPresented: $showDeviceSettings) {
             DeviceSettingsView(device: device)
         }
+        .onAppear { ledger = ACUsageLedger.load(gsn: device.geckoSerialNumber) }
         .task { await load() }
         .refreshable { await load() }
     }
@@ -180,7 +190,16 @@ struct DeviceDetailView: View {
             StatCard(title: "Idle / Off",       value: formatDuration(s.idleSecs),                                        icon: "moon.fill",                color: .blue)
             StatCard(title: "Solar (Week)",      value: pvUsageWeek.map  { formatDuration(Double($0) * 60) } ?? "—",    icon: "sun.max.fill",             color: .orange)
             StatCard(title: "AC (Week)",        value: acUsageWeek.map  { formatDuration(Double($0) * 60) } ?? "—",    icon: "bolt.fill",                color: .red)
+            StatCard(title: "Cost (Last Month)", value: costString(monthOf: ACUsageLedger.previousMonth(from: Date())), icon: "banknote", color: .green)
+            StatCard(title: "Cost (This Month)", value: costString(monthOf: Date()),                                   icon: "banknote", color: .green)
         }
+    }
+
+    /// Estimated AC element cost for the SAST calendar month containing `date`.
+    private func costString(monthOf date: Date) -> String {
+        guard electricityRate > 0, elementKW > 0 else { return "Set in Settings" }
+        let hours = ledger.hours(inMonthOf: date)
+        return String(format: "R%.2f", hours * elementKW * electricityRate)
     }
 
     // MARK: - Helpers
@@ -223,6 +242,10 @@ struct DeviceDetailView: View {
             history     = response.toHistoryPoints()
             pvUsageWeek = response.pvUsageWeek
             acUsageWeek = response.acUsageWeek
+            var updated = ACUsageLedger.load(gsn: device.geckoSerialNumber)
+            updated.merge(history)
+            updated.save(gsn: device.geckoSerialNumber)
+            ledger = updated
         } catch {
             self.error = error.localizedDescription
         }
@@ -233,13 +256,13 @@ struct DeviceDetailView: View {
 
     private func buildCSV() -> URL {
         let fmt = ISO8601DateFormatter()
-        var csv = "Timestamp,Temperature (°C),MPPT Voltage (V),PV On,AC On,State\n"
+        var csv = "Timestamp,Temperature (°C),PV Voltage (V),PV On,AC On,State\n"
         for p in filteredHistory {
             let ts    = fmt.string(from: p.timestamp)
             let temp  = p.temperature.map { String(format: "%.4f", $0) } ?? ""
-            let mpptV = p.mpptVoltage.map { "\($0)" } ?? ""
+            let pvV   = p.pvVoltage.map { "\($0)" } ?? ""
             let st    = p.state ?? ""
-            csv += "\(ts),\(temp),\(mpptV),\(p.pvOn),\(p.acOn),\(st)\n"
+            csv += "\(ts),\(temp),\(pvV),\(p.pvOn),\(p.acOn),\(st)\n"
         }
 
         let name = "\(device.geckoSerialNumber)_\(selectedRange.rawValue).csv"

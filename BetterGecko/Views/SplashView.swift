@@ -7,6 +7,13 @@ struct SplashView: View {
     @State private var subtitleOpacity: Double = 0
     @State private var glowRadius: CGFloat = 0
 
+    private var versionString: String {
+        let info = Bundle.main.infoDictionary
+        let version = info?["CFBundleShortVersionString"] as? String ?? "?"
+        let build   = info?["CFBundleVersion"] as? String ?? "?"
+        return "Version \(version) (\(build))"
+    }
+
     var body: some View {
         ZStack {
             // Background gradient
@@ -72,6 +79,12 @@ struct SplashView: View {
 
                 Spacer()
                 Spacer()
+
+                Text(versionString)
+                    .font(.system(size: 13, weight: .medium, design: .rounded))
+                    .foregroundStyle(.white.opacity(0.6))
+                    .opacity(subtitleOpacity)
+                    .padding(.bottom, 16)
             }
         }
         .onAppear { animate() }
