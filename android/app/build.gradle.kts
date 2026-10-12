@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -13,13 +15,39 @@ android {
         applicationId = "com.bettergecko.app"
         minSdk = 28
         targetSdk = 36
+        // Kept in step with the iOS marketing version. versionCode is Android's build
+        // number and must rise for every Play upload.
         versionCode = 1
         versionName = "2.0"
     }
 
+    // The upload key lives outside the repo. keystore.properties (gitignored) points
+    // at it; without that file a release build is simply left unsigned.
+    val keystoreFile = rootProject.file("keystore.properties")
+    val signing = keystoreFile.takeIf { it.exists() }?.let { file ->
+        Properties().apply { file.inputStream().use(::load) }
+    }
+
+    signingConfigs {
+        if (signing != null) {
+            create("upload") {
+                storeFile = file(signing.getProperty("storeFile"))
+                storePassword = signing.getProperty("storePassword")
+                keyAlias = signing.getProperty("keyAlias")
+                keyPassword = signing.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
+            if (signing != null) signingConfig = signingConfigs.getByName("upload")
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
