@@ -132,3 +132,15 @@ The GeyserGecko API has no endpoint that returns current setpoints or operating 
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+---
+
+## Support & privacy pages
+
+Source lives in `site/` and is published from the public repo `kobusm/bettergecko-support` (GitHub Pages):
+
+- Support URL: https://kobusm.github.io/bettergecko-support/
+- Privacy policy URL: https://kobusm.github.io/bettergecko-support/privacy.html
+
+To update after editing `site/`:
+`git subtree split --prefix site -b pages && git push https://github.com/kobusm/bettergecko-support.git pages:main --force && git branch -D pages`
