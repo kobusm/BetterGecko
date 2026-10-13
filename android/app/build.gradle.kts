@@ -18,7 +18,7 @@ android {
         // Kept in step with the iOS marketing version. versionCode is Android's build
         // number and must rise for every Play upload.
         versionCode = 1
-        versionName = "2.0"
+        versionName = "2.0.1"
     }
 
     // The upload key lives outside the repo. keystore.properties (gitignored) points
