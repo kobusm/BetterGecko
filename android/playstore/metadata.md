@@ -76,8 +76,8 @@ First Android release of BetterGecko.
 
 | Asset | Requirement | File |
 |---|---|---|
-| App icon | 512 x 512 PNG, full-bleed square | `icon-512.png` (cropped from the iOS icon; Play applies the mask) |
-| Feature graphic | 1024 x 500 | `feature-graphic.png` |
+| App icon | 512 x 512 PNG, full-bleed square | `icon-512.png` (Noto Emoji gecko, Apache 2.0; built by `scripts/make_icons.py`) |
+| Feature graphic | 1024 x 500 | `feature-graphic.png` (also from `scripts/make_icons.py`) |
 | Phone screenshots | 2 to 8, 9:16, 320 to 3840px a side | `screenshots/phone-*.png` (1080x1920 from the emulator, demo-mode status bar; Profile left out because it shows the account email) |
 
 ---
