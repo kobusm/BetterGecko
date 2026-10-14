@@ -17,7 +17,7 @@ android {
         targetSdk = 36
         // Kept in step with the iOS marketing version. versionCode is Android's build
         // number and must rise for every Play upload.
-        versionCode = 1
+        versionCode = 2
         versionName = "2.0.1"
     }
 
