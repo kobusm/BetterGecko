@@ -137,10 +137,12 @@ MIT — see [LICENSE](LICENSE).
 
 ## Support & privacy pages
 
-Source lives in `site/` and is published from the public repo `kobusm/bettergecko-support` (GitHub Pages):
+Source lives in `site/` and is hosted on Cloudflare Pages (project `bettergecko-app`; the older
+`bettergecko` project is the ESP32 controller dashboard, so don't deploy there):
 
-- Support URL: https://kobusm.github.io/bettergecko-support/
-- Privacy policy URL: https://kobusm.github.io/bettergecko-support/privacy.html
+- Support URL: https://bettergecko-app.pages.dev/
+- Privacy policy URL: https://bettergecko-app.pages.dev/privacy.html
+- Tester sign-up: https://bettergecko-app.pages.dev/testers.html
 
 To update after editing `site/`:
-`git subtree split --prefix site -b pages && git push https://github.com/kobusm/bettergecko-support.git pages:main --force && git branch -D pages`
+`npx wrangler pages deploy site --project-name=bettergecko-app --branch=main`

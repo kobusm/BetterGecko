@@ -90,8 +90,8 @@ First Android release of BetterGecko.
 | Free or paid | Free (can't be changed to paid later) |
 | Category | House & Home |
 | Contact email | kobus@marneweck.com |
-| Website | https://kobusm.github.io/bettergecko-support/ |
-| Privacy policy | https://kobusm.github.io/bettergecko-support/privacy.html |
+| Website | https://bettergecko-app.pages.dev/ |
+| Privacy policy | https://bettergecko-app.pages.dev/privacy.html |
 
 ## App content answers
 
