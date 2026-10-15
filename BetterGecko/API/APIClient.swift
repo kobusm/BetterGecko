@@ -45,6 +45,7 @@ actor APIClient {
     func clearSession() {
         UserDefaults.standard.removeObject(forKey: "gg_token")
         UserDefaults.standard.removeObject(forKey: "gg_deviceid")
+        Demo.isEnabled = false
     }
 
     func request<T: Decodable>(
@@ -55,6 +56,11 @@ actor APIClient {
         overrideToken: String? = nil,
         as type: T.Type = T.self
     ) async throws -> T {
+        if Demo.isEnabled {
+            do { return try JSONDecoder().decode(T.self, from: Demo.response(for: path)) }
+            catch { throw APIError.decodingError(error) }
+        }
+
         var urlComponents = URLComponents(url: baseURL.appendingPathComponent(path), resolvingAgainstBaseURL: false)!
         if let params {
             urlComponents.queryItems = params.map { URLQueryItem(name: $0.key, value: $0.value) }

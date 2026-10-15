@@ -69,6 +69,13 @@ struct LoginView: View {
                         .font(.body.bold())
                     }
                     .disabled(isLoading || email.isEmpty || password.isEmpty)
+
+                    Button("No GeyserGecko? Try the demo") {
+                        Task { await appState.startDemo() }
+                    }
+                    .font(.subheadline)
+                    .tint(.green)
+                    .disabled(isLoading)
                 }
                 .padding(.horizontal, 32)
 

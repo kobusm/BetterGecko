@@ -38,6 +38,7 @@ struct GeckoRealtime {
     /// Fetches the current live settings for a device. Returns whatever it managed to
     /// read before the deadline; fields may be nil if the device was slow to report.
     func fetchSettings(gsn: String, deviceID: String, timeout: TimeInterval = 12) async throws -> Live {
+        if Demo.isEnabled { return Demo.live() }
         let token = "u" + deviceID
         let commonQuery = [
             "token": token,

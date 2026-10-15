@@ -31,7 +31,15 @@ class AppState {
         loadDevices()
     }
 
+    func startDemo() async {
+        session = await AuthAPI.shared.startDemo()
+        loadDevices()
+        addDevice(Demo.device)
+    }
+
     func logout() async {
+        // The demo device was only ever local; don't leave it behind for a real account.
+        if Demo.isEnabled { removeDevice(gsn: Demo.gsn) }
         await AuthAPI.shared.logout()
         session = nil
         devices = []

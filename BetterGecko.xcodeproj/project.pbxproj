@@ -31,7 +31,18 @@
 		D6E580F4D865417E19BDDE84 /* EnergyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6604EB3E2A2F8351952946C3 /* EnergyView.swift */; };
 		EDAED7B742CE99C596C47B98 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FDCE831532BBE8E82444BA /* Models.swift */; };
 		F233C2D67E651B6A612FDC95 /* GeckoRealtime.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAB4BE41725F95DA5519DBEF /* GeckoRealtime.swift */; };
+		FCFB0D11308104C7006AAAE7 /* Demo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFB0D10308104C7006AAAE7 /* Demo.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AA11BB22CC33DD44EE550001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A104C5FE25AD1B995AC7D346 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 86D5DADDB3D933E87F360F4C;
+			remoteInfo = BetterGecko;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		028F0097694CE884F5BDE4C8 /* DeviceSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceSettingsView.swift; sourceTree = "<group>"; };
@@ -60,7 +71,27 @@
 		DEBAE0587E310D7B9BF61C2E /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		F88FAAF9764DFFA1512BA846 /* DeviceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDetailView.swift; sourceTree = "<group>"; };
 		F8A6AFF4F8818EC7501DD1E5 /* PersistedSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistedSettings.swift; sourceTree = "<group>"; };
+		FCFB0D10308104C7006AAAE7 /* Demo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Demo.swift; sourceTree = "<group>"; };
+		FCFB0D16308104DE006AAAE7 /* BetterGeckoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BetterGeckoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		FCFB0D17308104DE006AAAE7 /* BetterGeckoTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = BetterGeckoTests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FCFB0D13308104DE006AAAE7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		2B5E4B27D4E325BEAE0DC335 /* BetterGecko */ = {
@@ -80,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				2B5E4B27D4E325BEAE0DC335 /* BetterGecko */,
+				FCFB0D17308104DE006AAAE7 /* BetterGeckoTests */,
 				ADC65EA5A719CEC5719287F2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -93,6 +125,7 @@
 				CAB4BE41725F95DA5519DBEF /* GeckoRealtime.swift */,
 				B53EE19CFD5F73D1E5D74F7A /* KeychainHelper.swift */,
 				B4EA61B3D43DCE49A36F3266 /* NotificationManager.swift */,
+				FCFB0D10308104C7006AAAE7 /* Demo.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -120,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				1D259C02B7176EDFE4EB3480 /* BetterGecko.app */,
+				FCFB0D16308104DE006AAAE7 /* BetterGeckoTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -156,6 +190,29 @@
 			productReference = 1D259C02B7176EDFE4EB3480 /* BetterGecko.app */;
 			productType = "com.apple.product-type.application";
 		};
+		FCFB0D15308104DE006AAAE7 /* BetterGeckoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FCFB0D1A308104DE006AAAE7 /* Build configuration list for PBXNativeTarget "BetterGeckoTests" */;
+			buildPhases = (
+				FCFB0D12308104DE006AAAE7 /* Sources */,
+				FCFB0D13308104DE006AAAE7 /* Frameworks */,
+				FCFB0D14308104DE006AAAE7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AA11BB22CC33DD44EE550002 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				FCFB0D17308104DE006AAAE7 /* BetterGeckoTests */,
+			);
+			name = BetterGeckoTests;
+			packageProductDependencies = (
+			);
+			productName = BetterGeckoTests;
+			productReference = FCFB0D16308104DE006AAAE7 /* BetterGeckoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -163,7 +220,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
+				LastSwiftUpdateCheck = 2700;
 				LastUpgradeCheck = 2700;
+				TargetAttributes = {
+					FCFB0D15308104DE006AAAE7 = {
+						CreatedOnToolsVersion = 27.0;
+						TestTargetID = 86D5DADDB3D933E87F360F4C;
+					};
+				};
 			};
 			buildConfigurationList = 1427C38399CCBCF2475A441E /* Build configuration list for PBXProject "BetterGecko" */;
 			developmentRegion = en;
@@ -180,6 +244,7 @@
 			projectRoot = "";
 			targets = (
 				86D5DADDB3D933E87F360F4C /* BetterGecko */,
+				FCFB0D15308104DE006AAAE7 /* BetterGeckoTests */,
 			);
 		};
 /* End PBXProject section */
@@ -193,6 +258,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FCFB0D14308104DE006AAAE7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -202,6 +274,7 @@
 			files = (
 				3F4F5FCC64F2D0EB8EB8666A /* APIClient.swift in Sources */,
 				BE637DDA0CD0D88D06E849AC /* AddDeviceSheet.swift in Sources */,
+				FCFB0D11308104C7006AAAE7 /* Demo.swift in Sources */,
 				384D7EEA88B4F6DE1D156A53 /* AppState.swift in Sources */,
 				B2A08EFFD8DEF179DEB6FB4B /* AuthAPI.swift in Sources */,
 				48F526F48208E34F1CB5A83E /* BetterGeckoApp.swift in Sources */,
@@ -226,7 +299,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FCFB0D12308104DE006AAAE7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AA11BB22CC33DD44EE550002 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 86D5DADDB3D933E87F360F4C /* BetterGecko */;
+			targetProxy = AA11BB22CC33DD44EE550001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		0757E4774834773FD3B6C918 /* Debug */ = {
@@ -408,6 +496,67 @@
 			};
 			name = Debug;
 		};
+		FCFB0D1B308104DE006AAAE7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bettergecko.BetterGeckoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BetterGecko.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BetterGecko";
+				XROS_DEPLOYMENT_TARGET = 27.0;
+			};
+			name = Debug;
+		};
+		FCFB0D1C308104DE006AAAE7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bettergecko.BetterGeckoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BetterGecko.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BetterGecko";
+				XROS_DEPLOYMENT_TARGET = 27.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -425,6 +574,15 @@
 			buildConfigurations = (
 				0757E4774834773FD3B6C918 /* Debug */,
 				8EF99389062493C47BE7A4AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		FCFB0D1A308104DE006AAAE7 /* Build configuration list for PBXNativeTarget "BetterGeckoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FCFB0D1B308104DE006AAAE7 /* Debug */,
+				FCFB0D1C308104DE006AAAE7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

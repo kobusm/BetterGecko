@@ -48,11 +48,23 @@ struct AuthAPI {
         )
     }
 
+    // MARK: - Demo
+
+    /// Signs in to the simulated device (see `Demo`). Cleared by `logout` like a real session.
+    func startDemo() async -> SessionInfo {
+        Demo.isEnabled = true
+        await client.setToken(Demo.session.token)
+        await client.storeDeviceID(Demo.deviceID)
+        return Demo.session
+    }
+
     // MARK: - Restore / auto re-login
 
     /// Called on app launch. Tries stored token first; if that 401s, re-logs in
     /// with saved credentials automatically.
     func restoreSession() async throws -> SessionInfo {
+        if Demo.isEnabled { return Demo.session }
+
         // 1. Try using the stored session token
         if await client.storedToken != nil {
             do {
