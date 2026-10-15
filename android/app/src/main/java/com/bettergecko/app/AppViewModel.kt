@@ -58,6 +58,11 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         _devices.value = Store.devices
     }
 
+    fun startDemo() {
+        _session.value = AuthApi.startDemo()
+        _devices.value = Store.devices
+    }
+
     fun logout() = viewModelScope.launch {
         _devices.value.forEach { Schedules.cancelAll(getApplication(), it.geckoSerialNumber) }
         AuthApi.logout()

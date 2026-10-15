@@ -73,6 +73,7 @@ object ApiClient {
         params: Map<String, String>? = null,
         overrideToken: String? = null,
     ): JsonElement {
+        if (Store.demoMode) return Demo.respond(path)
         val (code, text) = execute(method, path, body, params, overrideToken ?: Store.token)
 
         if (code == 401) {
@@ -167,8 +168,18 @@ object AuthApi {
         return SessionInfo(email, signin.token, dev.role ?: signin.role ?: "user", dev.deviceID)
     }
 
+    /** Signs in to the simulated device; see [Demo]. Cleared by [logout] like a real session. */
+    fun startDemo(): SessionInfo {
+        Store.demoMode = true
+        Store.token = Demo.session.token
+        Store.deviceID = Demo.DEVICE_ID
+        Store.devices = listOf(Demo.device)
+        return Demo.session
+    }
+
     /** On launch: try the stored session token; if it 401s, re-login with saved credentials. */
     suspend fun restoreSession(): SessionInfo {
+        if (Store.demoMode) return Demo.session
         if (Store.token != null) {
             try {
                 return fetchSessionInfo()

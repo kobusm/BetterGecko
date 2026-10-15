@@ -35,6 +35,11 @@ object Store {
 
     fun clearSession() = prefs.edit().remove("gg_token").remove("gg_deviceid").apply()
 
+    /** Simulated device instead of the GeyserGecko service; see [Demo]. */
+    var demoMode: Boolean
+        get() = prefs.getBoolean("demo_mode", false)
+        set(v) = prefs.edit().putBoolean("demo_mode", v).apply()
+
     // Devices
     var devices: List<GeckoDevice>
         get() = decode("gg_manual_devices") ?: emptyList()

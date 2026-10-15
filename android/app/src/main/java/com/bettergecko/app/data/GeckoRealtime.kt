@@ -100,7 +100,7 @@ object GeckoRealtime {
     private val client = ApiClient.http.newBuilder().cookieJar(okhttp3.CookieJar.NO_COOKIES).build()
 
     suspend fun fetchSettings(gsn: String, deviceID: String, timeoutMs: Long = 12_000): LiveSnapshot =
-        withContext(Dispatchers.IO) {
+        if (Store.demoMode) Demo.live() else withContext(Dispatchers.IO) {
             val query = linkedMapOf(
                 "token" to "u$deviceID",
                 "ANDROID_APP_VERSION" to APP_VERSION,

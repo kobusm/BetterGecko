@@ -22,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -102,6 +103,10 @@ fun LoginScreen(vm: AppViewModel) {
             ) {
                 if (loading) CircularProgressIndicator(Modifier.size(20.dp), color = Color.White, strokeWidth = 2.dp)
                 else Text("Sign in", fontWeight = FontWeight.Bold)
+            }
+            Spacer(Modifier.height(8.dp))
+            TextButton(onClick = { vm.startDemo() }, enabled = !loading) {
+                Text("No GeyserGecko? Try the demo", color = GeckoGreen)
             }
             Spacer(Modifier.height(64.dp))
         }
