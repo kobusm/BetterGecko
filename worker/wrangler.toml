@@ -1,0 +1,22 @@
+# Not "bettergecko" — that Cloudflare project is the ESP32 controller dashboard.
+name = "bettergecko-ac-hours"
+main = "src/index.ts"
+compatibility_date = "2026-10-01"
+workers_dev = true
+preview_urls = false
+
+# History covers ~3 days; every 6 hours leaves lots of overlap if a run fails.
+[triggers]
+crons = ["17 */6 * * *"]
+
+[vars]
+GECKO_GSNS = "fce8c0de16e0"            # comma-separated, e.g. "fce8c0de16e0"
+GECKO_STATIC_TOKEN = "1f31271a71c05ca1b9c6c52a14086bb9"  # keep in sync with APIClient.swift
+
+# Secrets (wrangler secret put): GECKO_EMAIL, GECKO_PASSWORD, API_KEY
+
+[[d1_databases]]
+binding = "DB"
+database_name = "bettergecko-ac-hours"
+database_id = "d392aa45-f88f-425f-9fc6-2e4cec69f0bb"
+migrations_dir = "migrations"
