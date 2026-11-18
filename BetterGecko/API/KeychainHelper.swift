@@ -3,6 +3,16 @@ import Security
 
 enum Keychain {
     private static let service = "com.bettergecko.app"
+    /// Readable once the phone has been unlocked after a restart, so a background refresh
+    /// can re-login while the phone is locked. The default (WhenUnlocked) would block that.
+    private static let accessible = kSecAttrAccessibleAfterFirstUnlock
+
+    /// Moves items saved with the old default accessibility to `accessible`. Needs the
+    /// phone unlocked, so call it on a normal launch. No-op once migrated.
+    static func migrateAccessibility() {
+        let query: [CFString: Any] = [kSecClass: kSecClassGenericPassword, kSecAttrService: service]
+        SecItemUpdate(query as CFDictionary, [kSecAttrAccessible: accessible] as CFDictionary)
+    }
 
     static func save(_ value: String, forKey key: String) {
         let data = Data(value.utf8)
@@ -16,6 +26,7 @@ enum Keychain {
         // Add new item
         var attrs = query
         attrs[kSecValueData] = data
+        attrs[kSecAttrAccessible] = accessible
         SecItemAdd(attrs as CFDictionary, nil)
     }
 

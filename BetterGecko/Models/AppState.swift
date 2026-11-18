@@ -48,12 +48,14 @@ class AppState {
     // MARK: - Device management (persisted locally)
 
     func loadDevices() {
+        devices = Self.savedDevices()
+    }
+
+    /// The saved device list, readable off the main actor (e.g. from a background refresh).
+    nonisolated static func savedDevices() -> [GeckoDevice] {
         guard let data = UserDefaults.standard.data(forKey: manualDevicesKey),
-              let saved = try? JSONDecoder().decode([GeckoDevice].self, from: data) else {
-            devices = []
-            return
-        }
-        devices = saved
+              let saved = try? JSONDecoder().decode([GeckoDevice].self, from: data) else { return [] }
+        return saved
     }
 
     func addDevice(_ device: GeckoDevice) {
