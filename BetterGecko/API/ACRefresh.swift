@@ -26,31 +26,34 @@ enum ACRefresh {
     static func run() async {
         guard !Demo.isEnabled, await APIClient.shared.storedToken != nil else { return }
         let gsns = AppState.savedDevices().map(\.geckoSerialNumber)
-        let ok = await refreshLedgers(gsns: gsns) { gsn in
-            try await DeviceAPI.shared.getPerformanceHistory(gsn: gsn).toHistoryPoints()
-        }
+        let ok = await refreshLedgers(
+            gsns: gsns,
+            fetch: { try await DeviceAPI.shared.getPerformanceHistory(gsn: $0).toHistoryPoints() },
+            remote: Tracker.isConfigured ? { try await Tracker.fetchDays(gsn: $0) } : nil)
         if ok > 0 { UserDefaults.standard.set(Date(), forKey: lastRunKey) }
     }
 
     /// When a background refresh last updated at least one device (nil if never).
     static var lastRun: Date? { UserDefaults.standard.object(forKey: lastRunKey) as? Date }
 
-    /// Fetches each device's history and merges it into that device's ledger. One device
-    /// failing doesn't stop the rest. Returns how many devices were updated.
+    /// Fetches each device's history and merges it into that device's ledger, then (if
+    /// `remote` is given) the tracker's per-day totals. A device counts as updated if either
+    /// source worked, and one device failing doesn't stop the rest. Returns how many updated.
     @discardableResult
     static func refreshLedgers(gsns: [String],
-                               fetch: (String) async throws -> [HistoryPoint]) async -> Int {
+                               fetch: (String) async throws -> [HistoryPoint],
+                               remote: ((String) async throws -> [String: Double])? = nil) async -> Int {
         var updated = 0
         for gsn in gsns {
-            do {
-                let history = try await fetch(gsn)
-                var ledger = ACUsageLedger.load(gsn: gsn)
-                ledger.merge(history)
-                ledger.save(gsn: gsn)
-                updated += 1
-            } catch {
-                print("[ACRefresh] \(gsn): \(error)")
+            var ledger = ACUsageLedger.load(gsn: gsn)
+            var ok = false
+            do { ledger.merge(try await fetch(gsn)); ok = true }
+            catch { print("[ACRefresh] history \(gsn): \(error)") }
+            if let remote {
+                do { ledger.mergeRemote(try await remote(gsn)); ok = true }
+                catch { print("[ACRefresh] tracker \(gsn): \(error)") }
             }
+            if ok { ledger.save(gsn: gsn); updated += 1 }
         }
         return updated
     }

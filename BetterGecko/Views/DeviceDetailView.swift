@@ -246,10 +246,22 @@ struct DeviceDetailView: View {
             updated.merge(history)
             updated.save(gsn: device.geckoSerialNumber)
             ledger = updated
+            await mergeTracker()
         } catch {
             self.error = error.localizedDescription
         }
         isLoading = false
+    }
+
+    /// Tops up the ledger with the tracker's days, if one is set up. Failures are silent:
+    /// the on-phone tally still stands on its own.
+    private func mergeTracker() async {
+        guard Tracker.isConfigured,
+              let remote = try? await Tracker.fetchDays(gsn: device.geckoSerialNumber) else { return }
+        var updated = ACUsageLedger.load(gsn: device.geckoSerialNumber)
+        updated.mergeRemote(remote)
+        updated.save(gsn: device.geckoSerialNumber)
+        ledger = updated
     }
 
     // MARK: - CSV export

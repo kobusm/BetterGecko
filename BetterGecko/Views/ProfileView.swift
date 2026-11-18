@@ -10,6 +10,11 @@ struct ProfileView: View {
     @State private var live: GeckoRealtime.Live?
     @State private var isLoadingInfo = false
 
+    @State private var trackerURL = Tracker.url ?? ""
+    @State private var trackerKey = ""
+    @State private var trackerStatus: String?
+    @State private var isTestingTracker = false
+
     private var selectedDevice: GeckoDevice? {
         appState.devices.first { $0.geckoSerialNumber == selectedGSN } ?? appState.devices.first
     }
@@ -36,6 +41,8 @@ struct ProfileView: View {
                     systemSection(device)
                     deviceInfoSection(device)
                 }
+
+                if !Demo.isEnabled { trackerSection() }
 
                 Section {
                     Button("Sign out", role: .destructive) { showLogoutConfirm = true }
@@ -106,6 +113,62 @@ struct ProfileView: View {
             }
         } footer: {
             Text("The API exposes only one serial (the GSN); there is no separate hardware serial number. Firmware, AP and signal come from the live device.")
+        }
+    }
+
+    private var hasSavedKey: Bool { Tracker.apiKey?.isEmpty == false }
+
+    private func trackerSection() -> some View {
+        Section {
+            TextField("https://….workers.dev", text: $trackerURL)
+                .keyboardType(.URL)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
+            SecureField(hasSavedKey ? "API key (saved)" : "API key", text: $trackerKey)
+            Button {
+                Task { await saveTracker() }
+            } label: {
+                HStack {
+                    Text("Save & Test")
+                    if isTestingTracker { Spacer(); ProgressView() }
+                }
+            }
+            .disabled(isTestingTracker || Tracker.validURL(trackerURL) == nil || (trackerKey.isEmpty && !hasSavedKey))
+            if let trackerStatus {
+                Text(trackerStatus).font(.footnote).foregroundStyle(.secondary)
+            }
+            if Tracker.url != nil {
+                Button("Remove Tracker", role: .destructive) {
+                    Tracker.clear()
+                    trackerURL = ""; trackerKey = ""; trackerStatus = nil
+                }
+            }
+        } header: {
+            Text("AC Hours Tracker")
+        } footer: {
+            Text("Optional. A tracker you host (see worker/ in the BetterGecko repo) keeps every day's AC hours even when this app isn't opened. Its days are merged with the ones counted on this phone.\n\nLast background refresh: \(ACRefresh.lastRun?.formatted(date: .abbreviated, time: .shortened) ?? "not yet")")
+        }
+    }
+
+    private func saveTracker() async {
+        let key = trackerKey.isEmpty ? (Tracker.apiKey ?? "") : trackerKey
+        Tracker.save(url: trackerURL, apiKey: key)
+        trackerKey = ""
+        guard let gsn = selectedDevice?.geckoSerialNumber else {
+            trackerStatus = "Saved. Add a device to test it."
+            return
+        }
+        isTestingTracker = true
+        defer { isTestingTracker = false }
+        do {
+            let days = try await Tracker.fetchDays(gsn: gsn)
+            var ledger = ACUsageLedger.load(gsn: gsn)
+            ledger.mergeRemote(days)
+            ledger.save(gsn: gsn)
+            let hours = days.values.reduce(0, +) / 3600
+            trackerStatus = "Connected: \(days.count) days on record, \(String(format: "%.1f", hours)) h of AC."
+        } catch {
+            trackerStatus = "Saved, but the test failed: \(error.localizedDescription)"
         }
     }
 

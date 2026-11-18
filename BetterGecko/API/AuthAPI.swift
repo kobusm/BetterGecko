@@ -95,6 +95,7 @@ struct AuthAPI {
         await client.clearSession()
         Keychain.delete(forKey: keychainEmail)
         Keychain.delete(forKey: keychainPassword)
+        Tracker.clear()
     }
 
     // MARK: - Private
