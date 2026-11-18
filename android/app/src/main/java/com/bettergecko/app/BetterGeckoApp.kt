@@ -1,6 +1,7 @@
 package com.bettergecko.app
 
 import android.app.Application
+import com.bettergecko.app.data.AcRefresh
 import com.bettergecko.app.data.Schedules
 import com.bettergecko.app.data.SecureStore
 import com.bettergecko.app.data.Store
@@ -12,5 +13,6 @@ class BetterGeckoApp : Application() {
         SecureStore.init(this)
         Schedules.createChannel(this)
         Schedules.rearmAll(this)
+        AcRefresh.schedule(this)
     }
 }

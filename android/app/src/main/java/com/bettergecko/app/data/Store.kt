@@ -65,6 +65,10 @@ object Store {
     // Ledger
     fun ledger(gsn: String): ACUsageLedger = decode("ac_usage_ledger_$gsn") ?: ACUsageLedger()
     fun saveLedger(gsn: String, l: ACUsageLedger) = encode("ac_usage_ledger_$gsn", l)
+    /** When the background refresh last updated at least one device (epoch ms, null if never). */
+    var acRefreshLastRun: Long?
+        get() = prefs.getLong(AcRefresh.lastRunKey, 0L).takeIf { it > 0 }
+        set(v) = prefs.edit().apply { if (v == null) remove(AcRefresh.lastRunKey) else putLong(AcRefresh.lastRunKey, v) }.apply()
 
     // Schedules
     fun schedules(gsn: String): List<ModeSchedule> = ScheduleMath.sorted(decode("mode_schedules_$gsn") ?: emptyList())
