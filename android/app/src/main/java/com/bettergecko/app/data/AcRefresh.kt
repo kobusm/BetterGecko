@@ -34,24 +34,27 @@ object AcRefresh {
     }
 
     /**
-     * Fetches each device's history and merges it into that device's ledger. One device failing
-     * doesn't stop the rest. Returns how many devices were updated.
+     * Fetches each device's history and merges it into that device's ledger, then (if [remote] is
+     * given) the tracker's per-day totals. A device counts as updated if either source worked, and
+     * one device failing doesn't stop the rest. Returns how many devices were updated.
      */
     suspend fun refreshLedgers(
         gsns: List<String>,
         fetch: suspend (String) -> List<HistoryPoint>,
         load: (String) -> ACUsageLedger,
         save: (String, ACUsageLedger) -> Unit,
+        remote: (suspend (String) -> Map<String, Double>)? = null,
         onError: (String, Exception) -> Unit = { _, _ -> },
     ): Int {
         var updated = 0
         for (gsn in gsns) {
-            try {
-                save(gsn, load(gsn).merge(fetch(gsn)))
-                updated++
-            } catch (e: Exception) {
-                onError(gsn, e)
+            var ledger = load(gsn)
+            var ok = false
+            try { ledger = ledger.merge(fetch(gsn)); ok = true } catch (e: Exception) { onError(gsn, e) }
+            if (remote != null) {
+                try { ledger = ledger.mergeRemote(remote(gsn)); ok = true } catch (e: Exception) { onError(gsn, e) }
             }
+            if (ok) { save(gsn, ledger); updated++ }
         }
         return updated
     }
@@ -70,6 +73,7 @@ class AcRefreshWorker(context: Context, params: WorkerParameters) : CoroutineWor
             fetch = { DeviceApi.performanceHistory(it).toHistoryPoints() },
             load = Store::ledger,
             save = Store::saveLedger,
+            remote = if (Tracker.isConfigured) Tracker::fetchDays else null,
             onError = { gsn, e -> Log.w("AcRefresh", "$gsn: ${e.message}") },
         )
         if (updated == 0) return Result.retry()   // e.g. server unreachable: WorkManager backs off and retries

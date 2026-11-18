@@ -76,6 +76,10 @@ object Store {
     fun appliedStamp(gsn: String): String? = prefs.getString("schedule_applied_$gsn", null)
     fun setAppliedStamp(gsn: String, v: String) = prefs.edit().putString("schedule_applied_$gsn", v).apply()
 
+    fun string(key: String): String? = prefs.getString(key, null)
+    fun setString(key: String, v: String?) =
+        prefs.edit().apply { if (v == null) remove(key) else putString(key, v) }.apply()
+
     /** Wipes everything on sign-out. */
     fun clearAll() = prefs.edit().clear().apply()
 
@@ -125,6 +129,8 @@ object SecureStore {
         cipher.init(Cipher.DECRYPT_MODE, key(), GCMParameterSpec(128, bytes, 0, 12))
         String(cipher.doFinal(bytes, 12, bytes.size - 12))
     }.getOrNull()
+
+    fun remove(name: String) = prefs.edit().remove(name).apply()
 
     fun clear() = prefs.edit().clear().apply()
 }

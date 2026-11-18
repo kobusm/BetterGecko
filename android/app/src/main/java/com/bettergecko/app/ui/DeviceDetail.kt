@@ -61,6 +61,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.bettergecko.app.AppViewModel
 import com.bettergecko.app.data.ACUsageLedger
+import com.bettergecko.app.data.Tracker
 import com.bettergecko.app.data.DeviceApi
 import com.bettergecko.app.data.GeckoState
 import com.bettergecko.app.data.HistoryPoint
@@ -107,6 +108,10 @@ fun DeviceDetailScreen(
             ledger = Store.ledger(gsn).merge(history).also { Store.saveLedger(gsn, it) }
         } catch (e: Exception) {
             error = e.message
+        }
+        // Top up from the tracker if one is set up; failures are silent (the phone's tally stands alone).
+        if (Tracker.isConfigured) runCatching { Tracker.fetchDays(gsn) }.getOrNull()?.let { remote ->
+            ledger = Store.ledger(gsn).mergeRemote(remote).also { Store.saveLedger(gsn, it) }
         }
         loading = false
     }

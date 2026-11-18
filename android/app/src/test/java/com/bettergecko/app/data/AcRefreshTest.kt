@@ -38,4 +38,39 @@ class AcRefreshTest {
         AcRefresh.refreshLedgers(listOf("aaa"), { hour(6) }, load, save)
         assertEquals(3600.0, store["aaa"]!!.days["2026-11-16"]!!, 0.0)
     }
+
+    // Shape returned by the worker's GET /usage.
+    private val sample = """{"gsn":"fce8c0de16e0","lastRun":{"ran_at":"2026-11-17T20:10:15.590Z","ok":1,"error":null},"months":[{"month":"2026-11","hours":0.67,"days":[{"day":"2026-11-15","hours":0.08,"seconds":300},{"day":"2026-11-16","hours":0.42,"seconds":1500}]},{"month":"2026-10","hours":0,"days":[]}]}"""
+
+    @Test fun parsesTrackerDays() {
+        assertEquals(mapOf("2026-11-15" to 300.0, "2026-11-16" to 1500.0), Tracker.parseDays(sample))
+    }
+
+    @Test fun mergeRemoteKeepsTheLargerDay() {
+        val l = ACUsageLedger(mapOf("2026-11-15" to 600.0, "2026-11-16" to 900.0))
+            .mergeRemote(mapOf("2026-11-15" to 300.0, "2026-11-16" to 1500.0, "2026-11-01" to 60.0))
+        assertEquals(mapOf("2026-11-15" to 600.0, "2026-11-16" to 1500.0, "2026-11-01" to 60.0), l.days)
+    }
+
+    @Test fun trackerStillUpdatesWhenHistoryFails() = runBlocking {
+        val store = mutableMapOf<String, ACUsageLedger>()
+        val updated = AcRefresh.refreshLedgers(
+            listOf("aaa"), fetch = { throw ApiException(500, "down") },
+            load = { store[it] ?: ACUsageLedger() }, save = { g, l -> store[g] = l },
+            remote = { mapOf("2026-11-01" to 7200.0) },
+        )
+        assertEquals(1, updated)
+        assertEquals(7200.0, store["aaa"]!!.days["2026-11-01"]!!, 0.0)
+    }
+
+    @Test fun trackerFailureDoesNotBlockHistory() = runBlocking {
+        val store = mutableMapOf<String, ACUsageLedger>()
+        val updated = AcRefresh.refreshLedgers(
+            listOf("aaa"), fetch = { hour() },
+            load = { store[it] ?: ACUsageLedger() }, save = { g, l -> store[g] = l },
+            remote = { throw ApiException(401, "Wrong API key") },
+        )
+        assertEquals(1, updated)
+        assertEquals(3600.0, store["aaa"]!!.days["2026-11-16"]!!, 0.0)
+    }
 }

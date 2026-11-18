@@ -186,6 +186,14 @@ data class ACUsageLedger(val days: Map<String, Double> = emptyMap()) {
         return ACUsageLedger(merged)
     }
 
+    /** Folds in another source's per-day seconds. Each day keeps the larger value, since either
+     *  side may have missed part of a day. */
+    fun mergeRemote(remote: Map<String, Double>): ACUsageLedger {
+        val merged = days.toMutableMap()
+        for ((day, secs) in remote) merged[day] = maxOf(merged[day] ?: 0.0, secs)
+        return ACUsageLedger(merged)
+    }
+
     /** AC on-hours for the SAST calendar month containing [instant]. */
     fun hoursInMonthOf(instant: Instant): Double {
         val prefix = DAY_FMT.format(instant).take(7)

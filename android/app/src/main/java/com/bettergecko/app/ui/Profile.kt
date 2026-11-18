@@ -38,6 +38,14 @@ import com.bettergecko.app.AppViewModel
 import com.bettergecko.app.data.GeckoRealtime
 import com.bettergecko.app.data.LiveSnapshot
 import com.bettergecko.app.data.Store
+import com.bettergecko.app.data.Tracker
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import kotlinx.coroutines.launch
+import java.text.DateFormat
+import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -65,6 +73,7 @@ fun ProfileScreen(vm: AppViewModel) {
                     DeviceInfoSection(device.geckoSerialNumber)
                 }
             }
+            if (!Store.demoMode) TrackerSection(device?.geckoSerialNumber)
             OutlinedButton(
                 onClick = { confirmLogout = true }, modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.error),
@@ -119,6 +128,52 @@ private fun DeviceInfoSection(gsn: String) {
         Field("Signal (RSSI)", v(live?.rssi?.let { "$it dBm" }))
         live?.temperature?.let { Field("Temperature", "%.1f °C".format(it)) }
         Footnote("The API exposes only one serial (the GSN). Firmware, AP and signal come from the live device.")
+    }
+}
+
+@Composable
+private fun TrackerSection(gsn: String?) {
+    val scope = rememberCoroutineScope()
+    var url by remember { mutableStateOf(Tracker.url ?: "") }
+    var key by remember { mutableStateOf("") }
+    var hasSavedKey by remember { mutableStateOf(!Tracker.apiKey.isNullOrEmpty()) }
+    var saved by remember { mutableStateOf(Tracker.url != null) }
+    var status by remember { mutableStateOf<String?>(null) }
+    var testing by remember { mutableStateOf(false) }
+
+    fun saveAndTest() = scope.launch {
+        Tracker.save(url, key.ifEmpty { Tracker.apiKey ?: "" })
+        key = ""; hasSavedKey = true; saved = true
+        if (gsn == null) { status = "Saved. Add a device to test it."; return@launch }
+        testing = true
+        status = try {
+            val days = Tracker.fetchDays(gsn)
+            Store.saveLedger(gsn, Store.ledger(gsn).mergeRemote(days))
+            "Connected: ${days.size} days on record, %.1f h of AC.".format(days.values.sum() / 3600)
+        } catch (e: Exception) {
+            "Saved, but the test failed: ${e.message}"
+        }
+        testing = false
+    }
+
+    Group("AC Hours Tracker", trailing = { if (testing) CircularProgressIndicator(Modifier.size(16.dp), strokeWidth = 2.dp) }) {
+        OutlinedTextField(url, { url = it }, Modifier.fillMaxWidth(), label = { Text("Tracker URL") },
+            placeholder = { Text("https://….workers.dev") }, singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri))
+        OutlinedTextField(key, { key = it }, Modifier.fillMaxWidth(),
+            label = { Text(if (hasSavedKey) "API key (saved)" else "API key") }, singleLine = true,
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password))
+        OutlinedButton(
+            onClick = { saveAndTest() }, modifier = Modifier.fillMaxWidth(),
+            enabled = !testing && Tracker.validUrl(url) != null && (key.isNotEmpty() || hasSavedKey),
+        ) { Text("Save & Test") }
+        status?.let { Footnote(it) }
+        if (saved) TextButton(onClick = {
+            Tracker.clear(); url = ""; key = ""; hasSavedKey = false; saved = false; status = null
+        }) { Text("Remove Tracker", color = MaterialTheme.colorScheme.error) }
+        val last = Store.acRefreshLastRun?.let { DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT).format(Date(it)) }
+        Footnote("Optional. A tracker you host (see worker/ in the BetterGecko repo) keeps every day's AC hours even when this app isn't opened. Its days are merged with the ones counted on this phone.\n\nLast background refresh: ${last ?: "not yet"}")
     }
 }
 
