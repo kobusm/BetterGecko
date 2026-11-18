@@ -9,7 +9,7 @@ apps: split on SAST midnight, gaps capped at 1 h, a day keeps the larger of its 
 
 | Method | Path | |
 |---|---|---|
-| GET | `/usage?gsn=…` | This month and last month: `{ months: [{ month, hours, days: [{ day, hours }] }], lastRun }` |
+| GET | `/usage?gsn=…` | This month and last month: `{ months: [{ month, hours, days: [{ day, hours, seconds }] }], lastRun }` |
 | GET | `/usage?gsn=…&month=YYYY-MM` | One month |
 | POST | `/run` | Collect now instead of waiting for the cron |
 | GET | `/health` | Liveness |

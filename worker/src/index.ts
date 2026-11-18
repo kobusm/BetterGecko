@@ -71,7 +71,8 @@ async function monthUsage(env: Env, gsn: string, month: string) {
   const rows = await env.DB.prepare(
     "SELECT day, seconds FROM ac_days WHERE gsn = ? AND day LIKE ? ORDER BY day",
   ).bind(gsn, `${month}-%`).all<{ day: string; seconds: number }>();
-  const days = rows.results.map((r) => ({ day: r.day, hours: round(r.seconds / 3600) }));
+  // `seconds` is exact, for clients that merge with their own tally; `hours` is for display.
+  const days = rows.results.map((r) => ({ day: r.day, hours: round(r.seconds / 3600), seconds: r.seconds }));
   const hours = round(rows.results.reduce((s, r) => s + r.seconds, 0) / 3600);
   return { month, hours, days };
 }

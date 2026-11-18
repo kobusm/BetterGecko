@@ -83,8 +83,8 @@ describe("fetch", () => {
     env.DB.raw.prepare("INSERT INTO ac_days VALUES ('abc123','2026-10-31',5400,'x')").run();
     const body = (await (await get("/usage?gsn=ABC123")).json()) as any;
     expect(body.months).toEqual([
-      { month: "2026-11", hours: 1, days: [{ day: "2026-11-16", hours: 1 }] },
-      { month: "2026-10", hours: 1.5, days: [{ day: "2026-10-31", hours: 1.5 }] },
+      { month: "2026-11", hours: 1, days: [{ day: "2026-11-16", hours: 1, seconds: 3600 }] },
+      { month: "2026-10", hours: 1.5, days: [{ day: "2026-10-31", hours: 1.5, seconds: 5400 }] },
     ]);
     expect(body.lastRun.ok).toBe(1);
   });
