@@ -32,7 +32,7 @@
 
 ## Docs
 
-- `docs/mppt-controller-circuit.md` + two SVGs (merged from `claude/mppt-controller-diagram-ydukmf`): a *representative* MPPT buck circuit inferred from the app's telemetry, not the real GeyserGecko hardware. The remote branch can be deleted.
+- `docs/mppt-controller-circuit.md` + two SVGs (merged from `claude/mppt-controller-diagram-ydukmf`): a *representative* MPPT buck circuit inferred from the app's telemetry, not the real GeyserGecko hardware.
 
 ## Gotchas
 
