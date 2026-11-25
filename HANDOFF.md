@@ -23,16 +23,16 @@
 
 1. **Demo mode** on both apps (lets reviewers/testers use the app without a GeyserGecko account).
 2. **`bettergecko://` URL scheme** registered on iOS.
-3. **AC-hours tracking**
+2. **AC-hours tracking**
    - Both apps keep a local `ACUsageLedger` (split on SAST midnight, gaps capped at 1 h, per-day max wins).
    - Background refresh: iOS `BGAppRefreshTask` (iOS decides when), Android WorkManager daily job.
    - iOS Keychain items moved to `AfterFirstUnlock` so background re-login works while locked (migrated on launch).
-4. **Tracker worker** (`worker/`): cron every 6 h pulls the ~3-day history and folds it into D1. Returns exact seconds per day.
+3. **Tracker worker** (`worker/`): cron every 6 h pulls the ~3-day history and folds it into D1. Returns exact seconds per day.
 5. **Apps merge worker data** — Profile → *AC Hours Tracker* (URL + API key, Save & Test). Key stored in Keychain / SecureStore; cleared on sign-out; hidden in demo mode.
 
-## Open branches
+## Docs
 
-- `origin/claude/mppt-controller-diagram-ydukmf` (1 commit, `af7987f`) — adds `docs/mppt-controller-circuit.md` plus two SVG diagrams and a README section. **Not merged.** Looks like it belongs to the ESP32/MPPT controller rather than this app — decide whether it lives here or in the controller repo before merging.
+- `docs/mppt-controller-circuit.md` + two SVGs (merged from `claude/mppt-controller-diagram-ydukmf`): a *representative* MPPT buck circuit inferred from the app's telemetry, not the real GeyserGecko hardware. The remote branch can be deleted.
 
 ## Gotchas
 
@@ -56,6 +56,5 @@ npx wrangler pages deploy site --project-name=bettergecko-app --branch=main   # 
 ## Suggested next steps
 
 1. Decide when to promote Android 2.2 from closed testing (iOS 2.2 is already live).
-2. Decide on the MPPT diagram branch (merge, move to the controller repo, or delete).
-3. Verify the worker cron is running cleanly (`runs` table / `/health`) and that iOS background refresh is actually firing on a real device.
-4. README still describes the iOS app only and doesn't mention Android, demo mode, AC hours or the worker — worth a refresh.
+2. Verify the worker cron is running cleanly (`runs` table / `/health`) and that iOS background refresh is actually firing on a real device.
+3. README still describes the iOS app only and doesn't mention Android, demo mode, AC hours or the worker — worth a refresh.
