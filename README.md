@@ -129,7 +129,8 @@ The GeyserGecko API has no endpoint that returns current setpoints or operating 
 
 ## Hardware reference
 
-BetterGecko is the iOS app only — this repo has no controller firmware or schematic.
+This repo holds only the iOS and Android apps (plus the AC-hours worker and support site) —
+no controller firmware or schematic.
 [`docs/mppt-controller-circuit.md`](docs/mppt-controller-circuit.md) documents a
 representative MPPT buck-converter circuit, reconstructed from the telemetry and
 controls the app exposes.

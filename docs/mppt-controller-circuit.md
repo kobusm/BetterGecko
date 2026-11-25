@@ -1,6 +1,6 @@
 # GeyserGecko MPPT Controller — Circuit Diagram
 
-> **Provenance.** BetterGecko is the iOS companion app for GeyserGecko — this repo
+> **Provenance.** BetterGecko is the iOS and Android companion app for GeyserGecko — this repo
 > contains no controller firmware or hardware schematic. The diagrams below are a
 > **representative circuit**, reconstructed from the telemetry and controls the app
 > actually reads and writes (`API/DeviceAPI.swift`, `Views/EnergyView.swift`): PV
@@ -43,7 +43,7 @@ the MCU's ADC for the perturb-and-observe loop.
 1. Sample V_pv and I_pv; compute P_pv = V_pv × I_pv.
 2. Compare against the previous cycle's power.
 3. If power rose, keep perturbing the PWM duty cycle in the same direction; if it fell, reverse direction.
-4. Clamp duty cycle so V_mppt stays within the AC/PV setpoint band the app writes via `setTemperature`.
+4. Thermostat gating (the setpoints the app writes via `setTemperature` are tank **temperatures**, not voltages — they don't bound the duty cycle): read the tank temperature sensor; once it reaches the PV setpoint, hold Q1 off; close the AC relay only while the tank is below the AC setpoint (with some hysteresis). P&O tracks maximum power unconstrained in between.
 5. If Operating Mode excludes solar (Off / Element Only), hold Q1 off entirely; if it excludes the element, hold the AC relay open regardless of tank temperature.
 
 ## Legend
