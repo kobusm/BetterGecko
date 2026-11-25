@@ -5,7 +5,8 @@
 - `main` is clean and in sync with `origin/main` at `df5f871` (Bump version to 2.2).
 - Current version: **2.2** on both platforms — iOS `MARKETING_VERSION 2.2` / build 3, Android `versionName 2.2` / `versionCode 4`.
 - **Android:** 2.2 (versionCode 4) is live on both Play closed testing tracks ("Closed testing - Groups" and "Alpha") since 2026-11-17. The next Play upload needs versionCode 5. Notes used: `android/playstore/release-2.2.md`.
-- **iOS:** whether 2.2 (build 3) has been uploaded to App Store Connect isn't recorded — check before bumping again.
+- **iOS:** 2.2 is **Ready for Distribution** (live on the App Store) with build **32** (checked 2026-11-25). The repo's `CURRENT_PROJECT_VERSION` is 3, so the build number was bumped at upload time — the next upload needs a build number above 32.
+- `scripts/asc.py` isn't usable on this Mac yet: `~/.appstoreconnect/config.env` (key ID, issuer ID, key path) and the venv with `jwt`/`requests` are missing.
 
 ## What's in the repo
 
@@ -53,7 +54,7 @@ npx wrangler pages deploy site --project-name=bettergecko-app --branch=main   # 
 
 ## Suggested next steps
 
-1. Confirm 2.2 status in App Store Connect / TestFlight; decide when to promote Android 2.2 from closed testing.
+1. Decide when to promote Android 2.2 from closed testing (iOS 2.2 is already live).
 2. Decide on the MPPT diagram branch (merge, move to the controller repo, or delete).
 3. Verify the worker cron is running cleanly (`runs` table / `/health`) and that iOS background refresh is actually firing on a real device.
 4. README still describes the iOS app only and doesn't mention Android, demo mode, AC hours or the worker — worth a refresh.
