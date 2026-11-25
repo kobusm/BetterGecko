@@ -78,19 +78,17 @@ BetterGecko/
 
 ## Building
 
-1. Install [XcodeGen](https://github.com/yonaskolb/XcodeGen):
-   ```bash
-   brew install xcodegen
-   ```
-
-2. Clone the repository and generate the Xcode project:
+1. Clone the repository:
    ```bash
    git clone https://github.com/kobusm/BetterGecko.git
    cd BetterGecko
-   xcodegen generate
    ```
 
-3. Open `BetterGecko.xcodeproj` in Xcode and run on a device or simulator.
+2. Open `BetterGecko.xcodeproj` in Xcode and run on a device or simulator.
+
+> `BetterGecko.xcodeproj` is the source of truth for build settings (version, build number,
+> test target). `project.yml` is an outdated XcodeGen spec — don't run `xcodegen generate`,
+> it would overwrite the project with stale settings.
 
 > No third-party dependencies — the project uses only Apple frameworks (SwiftUI, Charts, Foundation).
 
